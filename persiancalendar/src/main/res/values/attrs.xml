@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2020 Rahman Mohammadi
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<resources>
+    <declare-styleable name="PersianMaterialAlertDialog">
+        <attr name="backgroundInsetStart" format="dimension" />
+        <attr name="backgroundInsetTop" format="dimension" />
+        <attr name="backgroundInsetEnd" format="dimension" />
+        <attr name="backgroundInsetBottom" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="PersianMaterialCalendarItem">
+        <attr name="android:insetLeft" />
+        <attr name="android:insetTop" />
+        <attr name="android:insetRight" />
+        <attr name="android:insetBottom" />
+        <attr name="itemFillColor" format="color" />
+        <attr name="itemTextColor" format="color" />
+        <attr name="itemStrokeColor" format="color" />
+        <attr name="itemStrokeWidth" format="dimension" />
+        <attr name="itemShape" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="square" value="1" />
+        </attr>
+        <attr name="itemShapeCornerRadius" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="PersianMaterialCalendar">
+        <attr name="typeface" format="reference"/>
+        <attr name="dayStyle" format="reference" />
+        <attr name="dayInvalidStyle" format="reference" />
+        <attr name="daySelectedStyle" format="reference" />
+        <attr name="dayTodayStyle" format="reference" />
+        <attr name="yearStyle" format="reference" />
+        <attr name="yearSelectedStyle" format="reference" />
+        <attr name="yearTodayStyle" format="reference" />
+        <attr name="rangeFillColor" format="color" />
+    </declare-styleable>
+
+    <attr name="persianMaterialCalendarTheme" format="reference" />
+    <attr name="persianMaterialCalendarStyle" format="reference" />
+
+    <attr name="navigationToggleStyle" format="reference"/>
+    <attr name="navigationButtonStyle" format="reference"/>
+    <attr name="dayTextStyle" format="reference"/>
+    <attr name="positiveButtonStyle" format="reference"/>
+    <attr name="cancelButtonStyle" format="reference"/>
+    <attr name="headerTitleTextStyle" format="reference"/>
+    <attr name="headerSelectionTextStyle" format="reference"/>
+    <attr name="headerBackgroundColor" format="color"/>
+</resources>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2020 Rahman Mohammadi
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<resources>
+
+    <style name="PersianMaterialCalendar.Default" parent="android:Widget">
+        <item name="dayStyle">@style/PersianMaterialCalendar.Default.Day</item>
+        <item name="dayInvalidStyle">@style/PersianMaterialCalendar.Default.Day.Invalid</item>
+        <item name="daySelectedStyle">@style/PersianMaterialCalendar.Default.Day.Selected</item>
+        <item name="dayTodayStyle">@style/PersianMaterialCalendar.Default.Day.Today</item>
+        <item name="yearStyle">@style/PersianMaterialCalendar.Default.Year</item>
+        <item name="yearSelectedStyle">@style/PersianMaterialCalendar.Default.Year.Selected</item>
+        <item name="yearTodayStyle">@style/PersianMaterialCalendar.Default.Year.Today</item>
+        <item name="rangeFillColor">@color/calendar_selected_range</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.MaterialCalendar" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="persianMaterialCalendarStyle">@style/PersianMaterialCalendar.Default</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+
+        <item name="dayTextStyle">@style/PersianMaterialCalendar.Default.DayTextView</item>
+        <item name="positiveButtonStyle">@style/PersianMaterialCalendar.Default.DialogTextButton</item>
+        <item name="cancelButtonStyle">@style/PersianMaterialCalendar.Default.DialogTextButton</item>
+        <item name="headerTitleTextStyle">@style/PersianMaterialCalendar.Default.HeaderTitle</item>
+        <item name="headerSelectionTextStyle">@style/PersianMaterialCalendar.Default.HeaderSelection</item>
+        <item name="headerBackgroundColor">@color/default_header_color</item>
+        <item name="navigationButtonStyle">@style/PersianMaterialCalendar.Default.NavigationStyle</item>
+        <item name="navigationToggleStyle">@style/PersianMaterialCalendar.Default.NavigationToggleStyle</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Item" parent="">
+        <item name="itemFillColor">@android:color/transparent</item>
+        <item name="itemTextColor">@android:color/black</item>
+        <item name="itemStrokeColor">@android:color/transparent</item>
+        <item name="itemStrokeWidth">1dp</item>
+        <item name="itemShape">circle</item>
+        <item name="itemShapeCornerRadius">0</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Day" parent="PersianMaterialCalendar.Default.Item">
+        <item name="android:width">@dimen/calendar_day_width</item>
+        <item name="android:height">@dimen/calendar_day_height</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Day.Invalid">
+        <item name="itemTextColor">#60000000</item>
+        <item name="itemStrokeWidth">0dp</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Day.Selected">
+        <item name="itemFillColor">?attr/colorPrimary</item>
+        <item name="itemTextColor">@android:color/white</item>
+        <item name="itemStrokeWidth">0dp</item>
+        <item name="itemStrokeColor">@android:color/transparent</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Day.Today">
+        <item name="itemStrokeColor">@android:color/black</item>
+        <item name="itemStrokeWidth">@dimen/calendar_day_today_stroke</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Year" parent="PersianMaterialCalendar.Default.Item">
+        <item name="itemShape">circle</item>
+        <item name="android:width">@dimen/calendar_year_width</item>
+        <item name="android:height">@dimen/calendar_year_height</item>
+        <item name="android:insetTop">@dimen/calendar_year_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_year_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_year_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_year_horizontal_padding</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Year.Selected" parent="PersianMaterialCalendar.Default.Year">
+        <item name="itemFillColor">?attr/colorPrimary</item>
+        <item name="itemTextColor">@android:color/white</item>
+        <item name="itemStrokeColor">@android:color/transparent</item>
+        <item name="itemShape">square</item>
+        <item name="itemShapeCornerRadius">14</item>
+        <item name="itemStrokeWidth">0dp</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.Year.Today" parent="PersianMaterialCalendar.Default.Year">
+        <item name="itemStrokeColor">#DF000000</item>
+        <item name="itemStrokeWidth">@dimen/calendar_day_today_stroke</item>
+        <item name="itemShape">square</item>
+        <item name="itemShapeCornerRadius">14</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.DialogTextButton">
+        <item name="android:background">@drawable/btn_ripple_background</item>
+        <item name="android:textColor">@color/text_btn_text_color_selector</item>
+
+        <item name="android:minWidth">@dimen/btn_dialog_btn_min_width</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginStart">@dimen/btn_text_btn_padding_left</item>
+        <item name="android:layout_marginLeft">@dimen/btn_text_btn_padding_left</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.NavigationStyle">
+        <item name="android:tint">?attr/colorPrimary</item>
+        <item name="android:background">@drawable/nvn_btn_ripple_background</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.NavigationToggleStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:tint">?attr/colorPrimary</item>
+        <item name="android:background">@drawable/nvn_toggle_btn_ripple_background</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="drawableTint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.HeaderTitle" parent="Widget.AppCompat.TextView">
+        <item name="android:textAppearance">@style/PersianMaterialCalendar.Default.TextAppearance.Overline</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.DayTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:textAppearance">@style/PersianMaterialCalendar.Default.TextAppearance.Caption</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.HeaderSelection" parent="Widget.AppCompat.TextView">
+        <item name="android:textAppearance">@style/PersianMaterialCalendar.Default.TextAppearance.Headline4</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:maxLines">@integer/calendar_selection_text_lines</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.TextAppearance.Headline4" parent="TextAppearance.AppCompat.Display1">
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.00735294118</item>
+    </style>
+    <style name="PersianMaterialCalendar.Default.TextAppearance.Caption" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.0333333333</item>
+    </style>
+
+    <style name="PersianMaterialCalendar.Default.TextAppearance.Overline" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:letterSpacing">0.166666667</item>
+    </style>
+</resources>
