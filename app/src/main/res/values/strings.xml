@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PersianLibrary</string>
+    <string name="from_date">از تاریخ</string>
+    <string name="to_date">تا تاریخ</string>
+    <string name="choose_date">انتخاب تاریخ</string>
+    <string name="choose_range">انتخاب محدوده</string>
 </resources>

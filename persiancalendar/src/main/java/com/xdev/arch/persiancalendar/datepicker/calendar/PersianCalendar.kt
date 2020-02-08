@@ -181,6 +181,7 @@ class PersianCalendar() : GregorianCalendar() {
      * @see Calendar.set()
      */
     private fun internalToGregory(y: Int, m: Int, d: Int) {
+        require(d > 0 && m < 12 && m >= 0 && d < 33)
         var year = y
         var day = d
 
