@@ -62,7 +62,7 @@ class SingleDateSelector : DateSelector<Long?> {
 
     override fun getDefaultThemeResId(context: Context): Int {
         val theme = resolve(context, R.attr.persianMaterialCalendarTheme)
-        return theme?.data ?: R.style.PersianMaterialCalendar_Default
+        return theme?.data ?: R.style.PersianMaterialCalendar_Default_MaterialCalendar
     }
 
     override fun getSelectionDisplayString(context: Context): String {
