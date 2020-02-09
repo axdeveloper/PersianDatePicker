@@ -16,7 +16,8 @@
   ~
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.AppCompatTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/picker_title_text"
     style="?attr/headerTitleTextStyle"
@@ -24,5 +25,4 @@
     android:layout_height="wrap_content"
     android:layout_gravity="top|start"
     android:gravity="start|bottom"
-    android:textSize="18sp"
     app:firstBaselineToTopHeight="@dimen/calendar_title_baseline_to_top" />

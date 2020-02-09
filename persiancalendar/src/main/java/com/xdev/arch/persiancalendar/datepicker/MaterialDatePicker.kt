@@ -29,6 +29,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import com.xdev.arch.persiancalendar.R
@@ -120,19 +121,14 @@ class MaterialDatePicker<S> : DialogFragment() {
         val pane = root.findViewById<View>(R.id.calendar_main_pane)
         val frame = root.findViewById<View>(R.id.calendar_frame)
         pane.layoutParams = LinearLayout.LayoutParams(
-            getPaddedPickerWidth(
-                context
-            ), LinearLayout.LayoutParams.MATCH_PARENT
-        )
-        frame.minimumHeight = getDialogPickerHeight(
-            requireContext()
-        )
+            getPaddedPickerWidth(context), LinearLayout.LayoutParams.MATCH_PARENT)
+        frame.minimumHeight = getDialogPickerHeight(requireContext())
         headerSelectionText = root.findViewById(R.id.picker_header_selection_text)
         ViewCompat.setAccessibilityLiveRegion(
             headerSelectionText,
             ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE
         )
-        val titleTextView = root.findViewById<TextView>(R.id.picker_title_text)
+        val titleTextView = root.findViewById<AppCompatTextView>(R.id.picker_title_text)
 
         if (titleText != null)
             titleTextView.text = titleText
