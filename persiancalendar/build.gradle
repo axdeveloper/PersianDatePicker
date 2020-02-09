@@ -12,7 +12,7 @@ ext {
 
     publishedGroupId = 'com.xdev.arch.persiancalendar.datepicker'
     artifact = 'datepicker'
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.1.1'
 
     libraryDescription = "Shamsi/Jalali date picker with material design (rewritten from Googls's material-components for android in Kotlin)"
     siteUrl = 'https://github.com/axdeveloper/PersianDatePicker'
@@ -59,6 +59,3 @@ if (project.rootProject.file('local.properties').exists()) {
     apply from: 'http://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
     apply from: 'http://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 }
-
-apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'
-
