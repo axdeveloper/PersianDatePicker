@@ -42,8 +42,7 @@ class CalendarItemStyle private constructor(
     strokeWidth: Int,
     itemShape: Int,
     cornerRadius: Float,
-    insets: Rect,
-    private val font: Int?
+    insets: Rect
 ) {
     private val insets: Rect
     private val textColor: ColorStateList?
@@ -80,9 +79,6 @@ class CalendarItemStyle private constructor(
         } else
             item.setTextColor(textColor)
 
-        if (font != null)
-            item.typeface = font
-
         val d: Drawable
         d = RippleDrawable(textColor?.withAlpha(30) ?: ColorStateList.valueOf(Color.WHITE).withAlpha(30),
             shape, mask)
@@ -107,12 +103,10 @@ class CalendarItemStyle private constructor(
 
     companion object {
         /**
-         * Creates a [CalendarItemStyle] using the provided [ ][R.styleable.MaterialCalendarItem].
+         * Creates a [CalendarItemStyle] using the provided [ ][R.styleable.PersianMaterialCalendarItem].
          */
         fun create(
-            context: Context, @StyleRes materialCalendarItemStyle: Int,
-            typeface: Int
-        ): CalendarItemStyle {
+            context: Context, @StyleRes materialCalendarItemStyle: Int): CalendarItemStyle {
             Preconditions.checkArgument(
                 materialCalendarItemStyle != 0,
                 "Cannot create a CalendarItemStyle with a styleResId of 0"
@@ -167,8 +161,7 @@ class CalendarItemStyle private constructor(
                 strokeWidth,
                 itemShape,
                 cornerRadius,
-                insets,
-                typeface)
+                insets)
         }
     }
 

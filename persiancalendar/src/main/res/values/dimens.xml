@@ -17,7 +17,7 @@
   -->
 
 <resources>
-    <dimen name="calculator_number_size">14sp</dimen>
+    <dimen name="day_text_size">14sp</dimen>
 
     <dimen name="calendar_day_height">32dp</dimen>
     <dimen name="calendar_day_horizontal_padding">3dp</dimen>

@@ -48,29 +48,23 @@ class CalendarStyle(context: Context) {
         val calendarAttributes =
             context.obtainStyledAttributes(calendarStyle, R.styleable.PersianMaterialCalendar)
 
-        val typeface: Int = calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_typeface, -1)
-
         day = CalendarItemStyle.create(
             context,
-            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_dayStyle, 0),
-            typeface
+            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_dayStyle, 0)
         )
 
         selectedDay = CalendarItemStyle.create(
             context,
-            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_daySelectedStyle, 0),
-            typeface
+            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_daySelectedStyle, 0)
         )
 
         invalidDay = CalendarItemStyle.create(
             context,
-            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_dayInvalidStyle, 0),
-            typeface
+            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_dayInvalidStyle, 0)
         )
         todayDay = CalendarItemStyle.create(
             context,
-            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_dayTodayStyle, 0),
-            typeface
+            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_dayTodayStyle, 0)
         )
         val rangeFillColorList =
             getColorStateList(
@@ -78,8 +72,7 @@ class CalendarStyle(context: Context) {
 
         year = CalendarItemStyle.create(
             context,
-            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_yearStyle, 0),
-            typeface
+            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_yearStyle, 0)
         )
 
         selectedYear = CalendarItemStyle.create(
@@ -87,14 +80,12 @@ class CalendarStyle(context: Context) {
             calendarAttributes.getResourceId(
                 R.styleable.PersianMaterialCalendar_yearSelectedStyle,
                 0
-            ), typeface
+            )
         )
 
         todayYear = CalendarItemStyle.create(
             context,
-            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_yearTodayStyle, 0),
-            typeface
-        )
+            calendarAttributes.getResourceId(R.styleable.PersianMaterialCalendar_yearTodayStyle, 0))
         rangeFill = Paint()
         rangeFill.color = rangeFillColorList!!.defaultColor
         calendarAttributes.recycle()
