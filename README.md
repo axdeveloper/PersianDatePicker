@@ -2,14 +2,14 @@
 Shamsi/Jalali date picker with material design ([Google Material Components Date Picker](https://github.com/material-components/material-components-android))
 
 <p>
-<img src="screenshots/date_picker_portrait.png" alt="Single Selection Demo 1" width="275"/>&emsp;
-<img src="screenshots/range_picker_portrait.png" alt="Single Selection Demo 2" width="275"/>&emsp;
-<img src="screenshots/range_picker_year_portrait.png" alt="Multi Selection Demo 1" width="275"/>
+<img src="screenshots/date_picker_portrait.png" alt="Single Selection Demo Portrait" width="275"/>&emsp;
+<img src="screenshots/range_picker_portrait.png" alt="Range Selection Demo Portrait" width="275"/>&emsp;
+<img src="screenshots/range_picker_year_portrait.png" alt="Range Selection Year Demo Portrait" width="275"/>
 </p>
 
 <p>
-<img src="screenshots/date_picker_land.png" alt="Single Selection Demo 1" width="422" />&emsp;
-<img src="screenshots/range_picker_land.png" alt="Single Selection Demo 2" width="422" />
+<img src="screenshots/date_picker_land.png" alt="Single Selection Demo Land" width="422" />&emsp;
+<img src="screenshots/range_picker_land.png" alt="Range Selection Demo Land" width="422" />
 </p>
 
 This library is based on [Googles Material Date Picker](https://github.com/material-components/material-components-android).
@@ -87,3 +87,9 @@ And finaly call show()
 
 ## Styling and Attributes
 Refer to [Sample's styles.xml](https://github.com/axdeveloper/PersianDatePicker/blob/master/app/src/main/res/values/styles.xml)
+
+## Contributors
+Rahman Mohammadi [@axdeveloper](https://github.com/axdeveloper)
+
+## License
+2020 Rahman Mohammadi ([@axdeveloper](https://github.com/axdeveloper)). See the `LICENSE` file.
