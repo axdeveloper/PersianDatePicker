@@ -33,12 +33,12 @@
         <item name="persianMaterialCalendarStyle">@style/PersianMaterialCalendar.Default</item>
         <item name="android:windowBackground">@drawable/dialog_background</item>
 
-        <item name="dayTextStyle">@style/PersianMaterialCalendar.Default.DayTextView</item>
+        <item name="dayTextAppearance">@style/PersianMaterialCalendar.Default.DayTextAppearance</item>
         <item name="positiveButtonStyle">@style/PersianMaterialCalendar.Default.DialogTextButton</item>
         <item name="cancelButtonStyle">@style/PersianMaterialCalendar.Default.DialogTextButton</item>
         <item name="headerTitleTextStyle">@style/PersianMaterialCalendar.Default.HeaderTitle</item>
         <item name="headerSelectionTextStyle">@style/PersianMaterialCalendar.Default.HeaderSelection</item>
-        <item name="headerBackgroundColor">@color/default_header_color</item>
+        <item name="headerBackgroundColor">?attr/colorPrimaryDark</item>
         <item name="navigationButtonStyle">@style/PersianMaterialCalendar.Default.NavigationStyle</item>
         <item name="navigationToggleStyle">@style/PersianMaterialCalendar.Default.NavigationToggleStyle</item>
     </style>
@@ -152,9 +152,9 @@
         <item name="autoSizeMaxTextSize">16sp</item>
     </style>
 
-    <style name="PersianMaterialCalendar.Default.DayTextView" parent="Widget.AppCompat.TextView">
-        <item name="android:textAppearance">@style/PersianMaterialCalendar.Default.TextAppearance.Caption</item>
-        <item name="android:gravity">center</item>
+    <style name="PersianMaterialCalendar.Default.DayTextAppearance">
+        <item name="textSize">14sp</item>
+        <item name="textColor">@android:color/black</item>
     </style>
 
     <style name="PersianMaterialCalendar.Default.HeaderSelection" parent="Widget.AppCompat.TextView">

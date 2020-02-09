@@ -41,7 +41,6 @@
     </declare-styleable>
 
     <declare-styleable name="PersianMaterialCalendar">
-        <attr name="typeface" format="reference"/>
         <attr name="dayStyle" format="reference" />
         <attr name="dayInvalidStyle" format="reference" />
         <attr name="daySelectedStyle" format="reference" />
@@ -52,12 +51,18 @@
         <attr name="rangeFillColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="SimpleTextView">
+        <attr name="typeface" format="reference"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
+
     <attr name="persianMaterialCalendarTheme" format="reference" />
     <attr name="persianMaterialCalendarStyle" format="reference" />
 
     <attr name="navigationToggleStyle" format="reference"/>
     <attr name="navigationButtonStyle" format="reference"/>
-    <attr name="dayTextStyle" format="reference"/>
+    <attr name="dayTextAppearance" format="reference"/>
     <attr name="positiveButtonStyle" format="reference"/>
     <attr name="cancelButtonStyle" format="reference"/>
     <attr name="headerTitleTextStyle" format="reference"/>

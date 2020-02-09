@@ -19,8 +19,8 @@
         <item name="persianMaterialCalendarStyle">@style/AppTheme.PersianCalendar.Example</item>
 <!--        Dialog background -->
         <item name="android:windowBackground">@drawable/dialog_background</item>
-<!--        Day text style -->
-        <item name="dayTextStyle">@style/PersianMaterialCalendar.Default.DayTextView</item>
+<!--        Day text style (textColor, textSize, typeface)-->
+        <item name="dayTextAppearance">@style/AppTheme.PersianCalendar.DayTextStyle</item>
 <!--        Positive button style -->
         <item name="positiveButtonStyle">@style/PersianMaterialCalendar.Default.DialogTextButton</item>
 <!--        Cancel button style -->
@@ -55,8 +55,6 @@
         <item name="yearTodayStyle">@style/AppTheme.PersianCalendar.Example.Year.Today</item>
 <!--        Selected range fill color -->
         <item name="rangeFillColor">@color/calendar_selected_range</item>
-<!--        Typeface used for days-->
-        <item name="typeface">@font/sahel</item>
     </style>
 
     <!--    You can either override from the default style (Recommended) or create a new one -->
@@ -137,6 +135,12 @@
         <item name="itemStrokeWidth">@dimen/calendar_day_today_stroke</item>
         <item name="itemShape">square</item>
         <item name="itemShapeCornerRadius">14</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.DayTextStyle" parent="PersianMaterialCalendar.Default.DayTextAppearance">
+        <item name="textColor">@android:color/black</item>
+        <item name="textSize">14sp</item>
+        <item name="typeface">@font/sahel</item>
     </style>
 
 </resources>

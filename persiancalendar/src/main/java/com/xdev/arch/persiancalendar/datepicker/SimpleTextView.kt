@@ -17,13 +17,10 @@
 
 package com.xdev.arch.persiancalendar.datepicker
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Typeface
-import android.os.Build
 import android.text.BoringLayout
 import android.text.Layout
 import android.text.TextPaint
@@ -32,13 +29,14 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import com.xdev.arch.persiancalendar.R
+import com.xdev.arch.persiancalendar.datepicker.utils.resolve
 import kotlin.math.min
 
 /** Simple [android.widget.TextView] to avoid using too much memory */
 class SimpleTextView @JvmOverloads constructor(
     context: Context,
-    var attrs: AttributeSet? = null,
-    var defStyleAttr: Int = 0
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     var text = ""
@@ -57,40 +55,28 @@ class SimpleTextView @JvmOverloads constructor(
             init()
     }
 
-    @SuppressLint("CustomViewStyleable", "PrivateResource")
     private fun init() {
         val r = context.resources
+        val textStyle: Int
 
-        val style = context.obtainStyledAttributes(attrs, R.styleable.TextAppearance, defStyleAttr, 0)
+        val style = resolve(context, R.attr.dayTextAppearance)
 
-        var typeface: Typeface? = null
+        textStyle = style?.data ?: R.style.PersianMaterialCalendar_Default_DayTextAppearance
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            try {
-                typeface = style.getFont(R.styleable.TextAppearance_android_typeface)
-            } catch (e: Exception) { }
-        }
+        val textAttributes = context.obtainStyledAttributes(textStyle, R.styleable.SimpleTextView)
 
-        if (typeface == null) {
-            var font = style.getResourceId(R.styleable.TextAppearance_fontFamily, -1)
-            if (font == -1)
-                font = style.getResourceId(R.styleable.TextAppearance_android_typeface, -1)
+        val typefaceResId = textAttributes.getResourceId(R.styleable.SimpleTextView_typeface, -1)
+        val textSize = textAttributes.getDimension(R.styleable.SimpleTextView_textSize, r.getDimension(R.dimen.day_text_size))
+        val textColor = textAttributes.getColor(R.styleable.SimpleTextView_textColor, Color.BLACK)
 
-            if (font != -1)
-                typeface = ResourcesCompat.getFont(context, font)
-        }
-
-        val textSize = style.getDimension(R.styleable.TextAppearance_android_textSize, r.getDimension(R.dimen.day_text_size))
-        val textColor = style.getColor(R.styleable.TextAppearance_android_textColor, Color.BLACK)
-
-        style.recycle()
+        textAttributes.recycle()
 
         mTextPaint = TextPaint()
         mTextPaint.isAntiAlias = true
         mTextPaint.color = textColor
         mTextPaint.textSize = textSize
-        if (typeface != null)
-            mTextPaint.typeface = typeface
+        if (typefaceResId != -1)
+            mTextPaint.typeface = ResourcesCompat.getFont(context, typefaceResId)
 
         val width = mTextPaint.measureText(this.text).toInt()
 
