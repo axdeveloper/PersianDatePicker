@@ -40,19 +40,19 @@
     <!--    You can either override from the default style (Recommended) or create a new one -->
     <style name="AppTheme.PersianCalendar.Example" parent="PersianMaterialCalendar.Default">
 <!--        Day style -->
-        <item name="dayStyle">@style/PersianMaterialCalendar.Default.Day</item>
+        <item name="dayStyle">@style/AppTheme.PersianCalendar.Example.Day</item>
 <!--        Invalid day style -->
-        <item name="dayInvalidStyle">@style/PersianMaterialCalendar.Default.Day.Invalid</item>
+        <item name="dayInvalidStyle">@style/AppTheme.PersianCalendar.Example.Day.Invalid</item>
 <!--        Selected day style -->
-        <item name="daySelectedStyle">@style/PersianMaterialCalendar.Default.Day.Selected</item>
+        <item name="daySelectedStyle">@style/AppTheme.PersianCalendar.Example.Day.Selected</item>
 <!--        Today style -->
-        <item name="dayTodayStyle">@style/PersianMaterialCalendar.Default.Day.Today</item>
+        <item name="dayTodayStyle">@style/AppTheme.PersianCalendar.Example.Day.Today</item>
 <!--        Year style -->
-        <item name="yearStyle">@style/PersianMaterialCalendar.Default.Year</item>
+        <item name="yearStyle">@style/AppTheme.PersianCalendar.Example.Year</item>
 <!--        Selected year style -->
-        <item name="yearSelectedStyle">@style/PersianMaterialCalendar.Default.Year.Selected</item>
+        <item name="yearSelectedStyle">@style/AppTheme.PersianCalendar.Example.Year.Selected</item>
 <!--        This year style -->
-        <item name="yearTodayStyle">@style/PersianMaterialCalendar.Default.Year.Today</item>
+        <item name="yearTodayStyle">@style/AppTheme.PersianCalendar.Example.Year.Today</item>
 <!--        Selected range fill color -->
         <item name="rangeFillColor">@color/calendar_selected_range</item>
 <!--        Typeface used for days-->
