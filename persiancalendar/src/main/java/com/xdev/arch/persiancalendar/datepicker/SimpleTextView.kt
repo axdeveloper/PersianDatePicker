@@ -49,7 +49,7 @@ class SimpleTextView @JvmOverloads constructor(
     var typeface: Int? = null
     set(value) {
         field = value
-        if (value != null) mTextPaint.typeface = ResourcesCompat.getFont(context, value)
+        if (value != null && value != -1) mTextPaint.typeface = ResourcesCompat.getFont(context, value)
     }
 
     private lateinit var mTextPaint: TextPaint

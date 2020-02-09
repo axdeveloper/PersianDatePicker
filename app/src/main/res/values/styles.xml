@@ -5,7 +5,138 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/sahel</item>
-        <item name="typeface">@font/sahel</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense</item>
+
+<!--        Attribute to specify MaterialCalendarTheme (Optional) if you don't specify a theme
+            Library will use the default-->
+        <item name="persianMaterialCalendarTheme">@style/AppTheme.PersianCalendar</item>
+
     </style>
+
+<!--    You can either override from the default theme (Recommended) or create a new one -->
+    <style name="AppTheme.PersianCalendar" parent="PersianMaterialCalendar.Default.MaterialCalendar">
+<!--        Attribute to specify MaterialCalendarStyle (Necessary if you don't override the default theme) -->
+        <item name="persianMaterialCalendarStyle">@style/AppTheme.PersianCalendar.Example</item>
+<!--        Dialog background -->
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+<!--        Day text style -->
+        <item name="dayTextStyle">@style/PersianMaterialCalendar.Default.DayTextView</item>
+<!--        Positive button style -->
+        <item name="positiveButtonStyle">@style/PersianMaterialCalendar.Default.DialogTextButton</item>
+<!--        Cancel button style -->
+        <item name="cancelButtonStyle">@style/PersianMaterialCalendar.Default.DialogTextButton</item>
+<!--        Header text style -->
+        <item name="headerTitleTextStyle">@style/PersianMaterialCalendar.Default.HeaderTitle</item>
+<!--        Header selection text style -->
+        <item name="headerSelectionTextStyle">@style/PersianMaterialCalendar.Default.HeaderSelection</item>
+<!--        Header background color-->
+        <item name="headerBackgroundColor">@color/default_header_color</item>
+<!--        Navigation button style [left and right buttons for month view]-->
+        <item name="navigationButtonStyle">@style/PersianMaterialCalendar.Default.NavigationStyle</item>
+<!--        Navigation toggle style [toggles view from month to year view]-->
+        <item name="navigationToggleStyle">@style/PersianMaterialCalendar.Default.NavigationToggleStyle</item>
+    </style>
+
+    <!--    You can either override from the default style (Recommended) or create a new one -->
+    <style name="AppTheme.PersianCalendar.Example" parent="PersianMaterialCalendar.Default">
+<!--        Day style -->
+        <item name="dayStyle">@style/PersianMaterialCalendar.Default.Day</item>
+<!--        Invalid day style -->
+        <item name="dayInvalidStyle">@style/PersianMaterialCalendar.Default.Day.Invalid</item>
+<!--        Selected day style -->
+        <item name="daySelectedStyle">@style/PersianMaterialCalendar.Default.Day.Selected</item>
+<!--        Today style -->
+        <item name="dayTodayStyle">@style/PersianMaterialCalendar.Default.Day.Today</item>
+<!--        Year style -->
+        <item name="yearStyle">@style/PersianMaterialCalendar.Default.Year</item>
+<!--        Selected year style -->
+        <item name="yearSelectedStyle">@style/PersianMaterialCalendar.Default.Year.Selected</item>
+<!--        This year style -->
+        <item name="yearTodayStyle">@style/PersianMaterialCalendar.Default.Year.Today</item>
+<!--        Selected range fill color -->
+        <item name="rangeFillColor">@color/calendar_selected_range</item>
+<!--        Typeface used for days-->
+        <item name="typeface">@font/sahel</item>
+    </style>
+
+    <!--    You can either override from the default style (Recommended) or create a new one -->
+    <style name="AppTheme.PersianCalendar.Example.Item" parent="PersianMaterialCalendar.Default.Item">
+<!--        Item fill color -->
+        <item name="itemFillColor">@android:color/transparent</item>
+<!--        Item text color -->
+        <item name="itemTextColor">@android:color/black</item>
+<!--        Item stroke color -->
+        <item name="itemStrokeColor">@android:color/transparent</item>
+<!--        Item stroke width -->
+        <item name="itemStrokeWidth">1dp</item>
+<!--        Item shape (Circle or Square)-->
+        <item name="itemShape">circle</item>
+<!--        Item shape corner radius-->
+        <item name="itemShapeCornerRadius">0</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.Example.Day" parent="AppTheme.PersianCalendar.Example.Item">
+        <item name="android:width">@dimen/calendar_day_width</item>
+        <item name="android:height">@dimen/calendar_day_height</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.Example.Day.Invalid">
+        <item name="itemTextColor">#60000000</item>
+        <item name="itemStrokeWidth">0dp</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.Example.Day.Selected">
+        <item name="itemFillColor">?attr/colorPrimary</item>
+        <item name="itemTextColor">@android:color/white</item>
+        <item name="itemStrokeWidth">0dp</item>
+        <item name="itemStrokeColor">@android:color/transparent</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.Example.Day.Today">
+        <item name="itemStrokeColor">@android:color/black</item>
+        <item name="itemStrokeWidth">@dimen/calendar_day_today_stroke</item>
+        <item name="android:insetTop">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_day_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_day_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_day_horizontal_padding</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.Example.Year" parent="AppTheme.PersianCalendar.Example.Item">
+        <item name="itemShape">circle</item>
+        <item name="android:width">@dimen/calendar_year_width</item>
+        <item name="android:height">@dimen/calendar_year_height</item>
+        <item name="android:insetTop">@dimen/calendar_year_vertical_padding</item>
+        <item name="android:insetBottom">@dimen/calendar_year_vertical_padding</item>
+        <item name="android:insetLeft">@dimen/calendar_year_horizontal_padding</item>
+        <item name="android:insetRight">@dimen/calendar_year_horizontal_padding</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.Example.Year.Selected" parent="AppTheme.PersianCalendar.Example.Year">
+        <item name="itemFillColor">?attr/colorPrimary</item>
+        <item name="itemTextColor">@android:color/white</item>
+        <item name="itemStrokeColor">@android:color/transparent</item>
+        <item name="itemShape">square</item>
+        <item name="itemShapeCornerRadius">14</item>
+        <item name="itemStrokeWidth">0dp</item>
+    </style>
+
+    <style name="AppTheme.PersianCalendar.Example.Year.Today" parent="AppTheme.PersianCalendar.Example.Year">
+        <item name="itemStrokeColor">#DF000000</item>
+        <item name="itemStrokeWidth">@dimen/calendar_day_today_stroke</item>
+        <item name="itemShape">square</item>
+        <item name="itemShapeCornerRadius">14</item>
+    </style>
+
 </resources>
