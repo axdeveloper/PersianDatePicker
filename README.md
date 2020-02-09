@@ -20,7 +20,7 @@ Minimum SDK: 21
 
 Add this to your gradle file
 ```groovy
-    implementation 'com.xdev.arch.persiancalendar.datepicker:datepicker:0.1.1'
+    implementation 'com.xdev.arch.persiancalendar.datepicker:datepicker:0.1.3'
 ```
 
 ## Customization
