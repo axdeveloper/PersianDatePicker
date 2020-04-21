@@ -60,7 +60,10 @@ internal class YearGridAdapter(private val materialCalendar: MaterialCalendar<*>
 
     private fun createYearClickListener(year: Int): View.OnClickListener {
         return View.OnClickListener {
-            val moveTo: Month = Month.create(year, materialCalendar.currentMonth.month)
+            val current = Month.create(year, materialCalendar.currentMonth.month)
+            val constraints = materialCalendar.calendarConstraints
+            val moveTo = constraints.clamp(current)
+
             materialCalendar.currentMonth = moveTo
             materialCalendar.setSelector(MaterialCalendar.CalendarSelector.DAY)
         }

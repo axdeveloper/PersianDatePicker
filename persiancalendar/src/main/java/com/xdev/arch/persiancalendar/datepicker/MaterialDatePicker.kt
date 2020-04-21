@@ -398,13 +398,13 @@ class MaterialDatePicker<S> : DialogFragment() {
         val CONFIRM_BUTTON_TAG: Any = "CONFIRM_BUTTON_TAG"
         val CANCEL_BUTTON_TAG: Any = "CANCEL_BUTTON_TAG"
 
-        /** Returns the IRST milliseconds representing the first moment of today in local timezone.  */
+        /** Returns the UTC milliseconds representing the first moment of today in local timezone.  */
         fun todayInIrstMilliseconds(): Long {
             return todayCalendar.timeInMillis
         }
 
         /**
-         * Returns the IRST milliseconds representing the first moment in current month in local timezone.
+         * Returns the UTC milliseconds representing the first moment in current month in local timezone.
          */
         fun thisMonthInIrstMilliseconds(): Long {
             return Month.today().timeInMillis

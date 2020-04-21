@@ -28,17 +28,13 @@ import android.os.Parcelable
  * device configuration changes. Parcelable breaks when passed between processes.
  */
 class CalendarConstraints private constructor(
-
     /** Earliest [Month] allowed by this set of bounds. */
     val start: Month,
     /** Latest [Month] allowed by this set of bounds. */
     val end: Month,
     /** OpenAt [Month] within this set of bounds. */
     val openAt: Month,
-
-    /**
-     * The [DateValidator] that determines whether a date can be clicked and selected.
-     */
+    /** The [DateValidator] that determines whether a date can be clicked and selected. */
     val dateValidator: DateValidator
 ) : Parcelable {
 
@@ -59,7 +55,6 @@ class CalendarConstraints private constructor(
      * configuration changes. Parcelable breaks when passed between processes.
      */
     interface DateValidator : Parcelable {
-
         /** Returns true if the provided [date] is enabled. */
         fun isValid(date: Long): Boolean
     }
@@ -92,6 +87,12 @@ class CalendarConstraints private constructor(
         dest.writeParcelable(end, 0)
         dest.writeParcelable(openAt, 0)
         dest.writeParcelable(dateValidator, 0)
+    }
+
+    fun clamp(month: Month): Month = when {
+        month < start -> start
+        month > end -> end
+        else -> month
     }
 
     /** Builder for [CalendarConstraints] */
@@ -168,16 +169,15 @@ class CalendarConstraints private constructor(
         }
 
         companion object {
-
             /**
-             * Default IRST timeInMilliseconds for the first selectable month unless [Builder.setStart]
+             * Default UTC timeInMilliseconds for the first selectable month unless [Builder.setStart]
              * is called. Set to Farvardin, 1388.
              */
             @JvmField
             val DEFAULT_START = Month.create(1388, Month.FARVARDIN).timeInMillis
 
             /**
-             * Default IRST timeInMilliseconds for the last selectable month unless [Builder.setEnd] is
+             * Default UTC timeInMilliseconds for the last selectable month unless [Builder.setEnd] is
              * called. Set to Esfand, 1409.
              */
             @JvmField

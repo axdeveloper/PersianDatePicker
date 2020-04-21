@@ -157,7 +157,7 @@ class Month private constructor(rawCalendar: PersianCalendar) :
         }
 
         /**
-         * Returns the [Month] that contains today in the IRST timezone (as per [Calendar.getInstance].
+         * Returns the [Month] that contains today in the UTC timezone (as per [Calendar.getInstance].
          */
         fun today(): Month {
             return Month(todayCalendar)
