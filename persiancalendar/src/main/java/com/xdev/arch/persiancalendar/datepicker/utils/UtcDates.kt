@@ -22,15 +22,15 @@ import java.util.*
 import java.util.Calendar.*
 
 /**
- * Iran's timezone code
+ * utc timezone code
  */
-private const val IRST = "IRST"
+private const val UTC = "UTC"
 
 /**
- * Iran's timezone
+ * utc timezone
  */
 private val timeZone: TimeZone
-    get() = TimeZone.getTimeZone(IRST)
+    get() = TimeZone.getTimeZone(UTC)
 
 /**
  * A [PersianCalendar] instance representing the day
@@ -48,8 +48,8 @@ val iranCalendar: PersianCalendar
     get() = getIranCalendar(null)
 
 /**
- * Converts a [Calendar] to a [PersianCalendar] with [IRST] timezone
- * @return [PersianCalendar] with [IRST] timezone
+ * Converts a [Calendar] to a [PersianCalendar] with [UTC] timezone
+ * @return [PersianCalendar] with [UTC] timezone
  */
 private fun getIranCalendar(rawCalendar: Calendar?): PersianCalendar {
     val utc = getInstance(timeZone)
@@ -80,7 +80,7 @@ fun getDayCopy(rawCalendar: Calendar): PersianCalendar {
 fun canonicalYearMonthDay(rawDate: Long): Long {
     val calendar = PersianCalendar()
     calendar.timeInMillis = rawDate
-    calendar.timeZone = TimeZone.getTimeZone(IRST)
+    calendar.timeZone = TimeZone.getTimeZone(UTC)
     calendar.set(HOUR_OF_DAY, 0)
     calendar.set(MINUTE, 0)
     calendar.set(SECOND, 0)

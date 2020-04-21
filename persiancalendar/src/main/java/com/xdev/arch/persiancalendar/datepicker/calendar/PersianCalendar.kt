@@ -61,16 +61,16 @@ class PersianCalendar() : GregorianCalendar() {
 
             if (day > PERSIAN_DAYS_IN_MONTH[amount % 12]) {
                 day = PERSIAN_DAYS_IN_MONTH[amount % 12]
-                if (month == 11 && isLeapYear(year))
+                if (month == 11 && isPersianLeapYear())
                     day = 30
             }
 
             setPersian(year, month, day)
-        }
+        } else super.add(field, amount)
     }
 
     override fun toString(): String {
-        return "$year/$month/$day"
+        return "$year/${month + 1}/$day"
     }
 
 
