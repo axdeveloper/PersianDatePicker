@@ -91,8 +91,7 @@ internal class MaterialCalendarGridView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        adapter?.let {
-            val monthAdapter = it
+        adapter?.let { monthAdapter ->
             val dateSelector = monthAdapter.dateSelector
             val calendarStyle = monthAdapter.calendarStyle
             val firstOfMonth = monthAdapter.getItem(monthAdapter.firstPositionInMonth())

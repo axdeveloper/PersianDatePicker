@@ -49,7 +49,7 @@ internal class YearGridAdapter(private val materialCalendar: MaterialCalendar<*>
         val calendar = todayCalendar
         var style = if (calendar.year == year) styles.todayYear else styles.year
 
-        for (day in materialCalendar.dateSelector!!.selectedDays) {
+        for (day in materialCalendar.dateSelector.selectedDays) {
             calendar.timeInMillis = day
             if (calendar.year == year) style = styles.selectedYear
         }

@@ -2,9 +2,9 @@ package com.xdev.arch.persiancalendar.datepicker
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.NonNull
+import com.xdev.arch.persiancalendar.datepicker.utils.readListCompat
 
-class CompositeDateValidator(@NonNull
+class CompositeDateValidator(
                              private val validators: List<CalendarConstraints.DateValidator?>)
     : CalendarConstraints.DateValidator {
 
@@ -21,8 +21,8 @@ class CompositeDateValidator(@NonNull
 
     companion object CREATOR : Parcelable.Creator<CompositeDateValidator> {
         override fun createFromParcel(parcel: Parcel): CompositeDateValidator {
-            val validators: List<CalendarConstraints.DateValidator> = ArrayList()
-            parcel.readList(validators, CalendarConstraints.DateValidator::class.java.classLoader)
+            val validators: MutableList<CalendarConstraints.DateValidator> = ArrayList()
+            parcel.readListCompat(validators, CalendarConstraints.DateValidator::class.java.classLoader)
             return CompositeDateValidator(validators)
         }
 

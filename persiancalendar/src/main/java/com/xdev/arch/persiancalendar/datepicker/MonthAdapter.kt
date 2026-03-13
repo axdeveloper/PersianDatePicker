@@ -22,11 +22,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
+import androidx.annotation.ColorInt
 import com.xdev.arch.persiancalendar.R
 import com.xdev.arch.persiancalendar.datepicker.utils.canonicalYearMonthDay
 import com.xdev.arch.persiancalendar.datepicker.utils.todayCalendar
-import java.util.*
 
 /**
  * Represents the days of a month with [SimpleTextView] instances for each day.
@@ -41,7 +40,8 @@ internal class MonthAdapter(
      * The [DateSelector] dictating the draw behavior of [getView].
      */
     val dateSelector: DateSelector<*>?,
-    private val calendarConstraints: CalendarConstraints
+    private val calendarConstraints: CalendarConstraints,
+    @ColorInt private val accentColor: Int
 ) : BaseAdapter() {
     var calendarStyle: CalendarStyle? = null
     override fun hasStableIds(): Boolean {
@@ -111,7 +111,6 @@ internal class MonthAdapter(
             for (selectedDay in dateSelector!!.selectedDays) {
                 if (canonicalYearMonthDay(date) == canonicalYearMonthDay(selectedDay)) {
                     calendarStyle!!.selectedDay.styleItem(day)
-                    println("selected item $day")
                     return day
                 }
             }
@@ -132,7 +131,7 @@ internal class MonthAdapter(
 
     private fun initializeStyles(context: Context) {
         if (calendarStyle == null) {
-            calendarStyle = CalendarStyle(context)
+            calendarStyle = CalendarStyle(context, accentColor)
         }
     }
 

@@ -25,19 +25,23 @@
     android:paddingTop="@dimen/calendar_navigation_top_padding"
     android:paddingBottom="@dimen/calendar_navigation_bottom_padding">
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.button.MaterialButton
+        style="?attr/navigationButtonStyle"
         android:id="@+id/month_navigation_previous"
-        style="?attr/navigationButtonStyle"
         android:layout_width="@dimen/min_touch_target_size"
         android:layout_height="@dimen/calendar_navigation_height"
-        android:src="@drawable/ic_arrow_left" />
+        app:icon="@drawable/ic_arrow_left"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"/>
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/month_navigation_next"
+    <com.google.android.material.button.MaterialButton
         style="?attr/navigationButtonStyle"
+        android:id="@+id/month_navigation_next"
         android:layout_width="@dimen/min_touch_target_size"
         android:layout_height="@dimen/calendar_navigation_height"
-        android:src="@drawable/ic_arrow_right" />
+        app:icon="@drawable/ic_arrow_right"
+        android:insetBottom="0dp"
+        android:insetTop="0dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,19 +49,20 @@
         android:gravity="right"
         tools:ignore="RtlHardcoded">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/month_navigation_fragment_toggle"
+        <com.google.android.material.button.MaterialButton
             style="?attr/navigationToggleStyle"
+            android:id="@+id/month_navigation_fragment_toggle"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/calendar_navigation_height"
-            android:clickable="true"
-            android:ellipsize="none"
-            android:focusable="true"
             android:gravity="right|center_vertical"
             android:paddingEnd="@dimen/calendar_content_padding"
             android:paddingRight="@dimen/calendar_content_padding"
             android:singleLine="true"
-            app:drawableLeftCompat="@drawable/ic_menu_arrow_down"
+            android:insetBottom="0dp"
+            android:insetTop="0dp"
+            app:iconPadding="4dp"
+            app:iconGravity="textStart"
+            app:icon="@drawable/ic_menu_arrow_down"
             tools:ignore="RtlHardcoded,RtlSymmetry" />
     </LinearLayout>
 </LinearLayout>

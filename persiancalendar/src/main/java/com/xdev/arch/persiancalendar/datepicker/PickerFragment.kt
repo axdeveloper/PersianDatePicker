@@ -21,10 +21,9 @@ import androidx.fragment.app.Fragment
 import java.util.*
 
 abstract class PickerFragment<S> : Fragment() {
-    protected val onSelectionChangedListeners =
-        LinkedHashSet<OnSelectionChangedListener<S>>()
+    protected val onSelectionChangedListeners = LinkedHashSet<OnSelectionChangedListener<S>>()
 
-    abstract val dateSelector: DateSelector<S>?
+    abstract fun dateSelector(): DateSelector<S>?
 
     /** Adds a listener for selection changes. */
     fun addOnSelectionChangedListener(listener: OnSelectionChangedListener<S>): Boolean {
@@ -32,7 +31,7 @@ abstract class PickerFragment<S> : Fragment() {
     }
 
     /** Removes a listener for selection changes. */
-    fun removeOnSelectionChangedListener(listener: OnSelectionChangedListener<S>?): Boolean {
+    fun removeOnSelectionChangedListener(listener: OnSelectionChangedListener<S>): Boolean {
         return onSelectionChangedListeners.remove(listener)
     }
 

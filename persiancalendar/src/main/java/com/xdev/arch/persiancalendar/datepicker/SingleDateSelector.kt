@@ -33,6 +33,7 @@ import java.util.*
  */
 class SingleDateSelector : DateSelector<Long?> {
     private var selectedItem: Long? = null
+
     override fun select(selection: Long) {
         selectedItem = selection
     }
@@ -44,7 +45,7 @@ class SingleDateSelector : DateSelector<Long?> {
     override val isSelectionComplete: Boolean
         get() = selectedItem != null
 
-    override val selectedRanges: Collection<Pair<Long?, Long?>>
+    override val selectedRanges: Collection<Pair<Long, Long>>
         get() = ArrayList()
 
     override val selectedDays: Collection<Long>
@@ -56,9 +57,8 @@ class SingleDateSelector : DateSelector<Long?> {
             return selections
         }
 
-    override fun getSelection(): Long? {
-        return selectedItem
-    }
+    override fun getSelection() = selectedItem
+
 
     override fun getDefaultThemeResId(context: Context): Int {
         val theme = resolve(context, R.attr.persianMaterialCalendarTheme)
@@ -77,9 +77,7 @@ class SingleDateSelector : DateSelector<Long?> {
     override val defaultTitleResId: Int
         get() = R.string.picker_date_header_title
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeValue(selectedItem)

@@ -20,6 +20,7 @@ package com.xdev.arch.persiancalendar.datepicker
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import com.xdev.arch.persiancalendar.datepicker.utils.parcelable
 
 /**
  * Used to limit the display range of [MaterialCalendar] and set an openAt month.
@@ -96,11 +97,11 @@ class CalendarConstraints private constructor(
     }
 
     /** Builder for [CalendarConstraints] */
-    class Builder {
-        private var start = DEFAULT_START
-        private var end = DEFAULT_END
-        private var openAt: Long? = null
-        private var validator: DateValidator? = DateValidatorPointForward.from(Long.MIN_VALUE)
+    open class Builder {
+        var start = DEFAULT_START
+        var end = DEFAULT_END
+        var openAt: Long? = null
+        var validator: DateValidator? = DateValidatorPointForward.from(Long.MIN_VALUE)
 
         constructor()
 
@@ -151,20 +152,18 @@ class CalendarConstraints private constructor(
         /** Builds the [CalendarConstraints] object using the set parameters or defaults. */
         fun build(): CalendarConstraints {
             if (openAt == null) {
-                val today: Long = MaterialDatePicker.thisMonthInIrstMilliseconds()
+                val today: Long = MaterialDatePicker.thisMonthInUtcMilliseconds()
                 openAt = if (today in start..end) today else start
             }
+
             val deepCopyBundle = Bundle()
-            deepCopyBundle.putParcelable(
-                DEEP_COPY_VALIDATOR_KEY,
-                validator
-            )
+            deepCopyBundle.putParcelable(DEEP_COPY_VALIDATOR_KEY, validator)
 
             return CalendarConstraints(
                 Month.create(start),
                 Month.create(end),
                 Month.create(openAt!!),
-                deepCopyBundle.getParcelable<Parcelable>(DEEP_COPY_VALIDATOR_KEY) as DateValidator
+                deepCopyBundle.parcelable<Parcelable>(DEEP_COPY_VALIDATOR_KEY) as DateValidator
             )
         }
 
@@ -188,16 +187,22 @@ class CalendarConstraints private constructor(
     }
 
     companion object {
+
+        inline fun constraints(constraintBuilder: Builder.() -> Unit): CalendarConstraints {
+            val builder = Builder()
+            builder.constraintBuilder()
+            return builder.build()
+        }
+
         @JvmField
         val CREATOR: Parcelable.Creator<CalendarConstraints> =
             object :
                 Parcelable.Creator<CalendarConstraints> {
                 override fun createFromParcel(source: Parcel): CalendarConstraints {
-                    val start: Month = source.readParcelable(Month::class.java.classLoader)!!
-                    val end: Month = source.readParcelable(Month::class.java.classLoader)!!
-                    val openAt: Month = source.readParcelable(Month::class.java.classLoader)!!
-                    val validator: DateValidator =
-                        source.readParcelable(DateValidator::class.java.classLoader)!!
+                    val start: Month = source.parcelable()!!
+                    val end: Month = source.parcelable()!!
+                    val openAt: Month = source.parcelable()!!
+                    val validator: DateValidator = source.parcelable()!!
                     return CalendarConstraints(start, end, openAt, validator)
                 }
 

@@ -32,7 +32,7 @@ class Month private constructor(rawCalendar: PersianCalendar) :
     Comparable<Month>, Parcelable {
 
     /** The acceptable int values for month when using [Month.create] */
-    @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     @IntDef(
         FARVARDIN,
         ORDIBEHESHT,

@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.LinearLayout
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.xdev.arch.persiancalendar.R
 
@@ -29,7 +30,9 @@ internal class MonthsPagerAdapter(
     context: Context,
     dateSelector: DateSelector<*>?,
     calendarConstraints: CalendarConstraints,
-    onDayClickListener: MaterialCalendar.OnDayClickListener
+    onDayClickListener: MaterialCalendar.OnDayClickListener,
+    @ColorInt
+    private val accentColor: Int
 ) : RecyclerView.Adapter<MonthsPagerAdapter.ViewHolder>() {
     private val calendarConstraints: CalendarConstraints
     private val dateSelector: DateSelector<*>?
@@ -61,7 +64,7 @@ internal class MonthsPagerAdapter(
         if (monthGrid.adapter != null && month == monthGrid.adapter?.month)
             monthGrid.adapter?.notifyDataSetChanged()
         else {
-            val monthAdapter = MonthAdapter(month, dateSelector, calendarConstraints)
+            val monthAdapter = MonthAdapter(month, dateSelector, calendarConstraints, accentColor)
             monthGrid.numColumns = month.daysInWeek
             monthGrid.setAdapter(monthAdapter)
         }

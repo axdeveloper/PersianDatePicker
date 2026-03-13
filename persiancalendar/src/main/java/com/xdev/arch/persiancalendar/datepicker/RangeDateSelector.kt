@@ -20,7 +20,6 @@ package com.xdev.arch.persiancalendar.datepicker
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.core.util.Preconditions
 import com.xdev.arch.persiancalendar.R
 import com.xdev.arch.persiancalendar.datepicker.utils.canonicalYearMonthDay
 import com.xdev.arch.persiancalendar.datepicker.utils.getDateRangeString
@@ -29,8 +28,10 @@ import com.xdev.arch.persiancalendar.datepicker.utils.resolve
 import java.util.*
 
 class RangeDateSelector : DateSelector<Pair<Long?, Long?>> {
+
     private var selectedStartItem: Long? = null
     private var selectedEndItem: Long? = null
+
     override fun select(selection: Long) {
         if (selectedStartItem == null) {
             selectedStartItem = selection
@@ -43,28 +44,18 @@ class RangeDateSelector : DateSelector<Pair<Long?, Long?>> {
     }
 
     override val isSelectionComplete: Boolean
-        get() = selectedStartItem != null && selectedEndItem != null && isValidRange(
-            selectedStartItem!!,
-            selectedEndItem!!
-        )
+        get() = selectedStartItem != null &&
+                selectedEndItem != null &&
+                isValidRange(selectedStartItem!!, selectedEndItem!!)
 
     override fun setSelection(selection: Pair<Long?, Long?>) {
-        if (selection.first != null && selection.second != null) {
-            Preconditions.checkArgument(
-                isValidRange(
-                    selection.first!!,
-                    selection.second!!
-                )
-            )
-        }
+        if (selection.first != null && selection.second != null)
+            require(isValidRange(selection.first!!, selection.second!!))
+
         selectedStartItem =
-            if (selection.first == null) null else canonicalYearMonthDay(
-                selection.first!!
-            )
+            if (selection.first == null) null else canonicalYearMonthDay(selection.first!!)
         selectedEndItem =
-            if (selection.second == null) null else canonicalYearMonthDay(
-                selection.second!!
-            )
+            if (selection.second == null) null else canonicalYearMonthDay(selection.second!!)
     }
 
     override fun getSelection(): Pair<Long?, Long?> {
@@ -74,13 +65,11 @@ class RangeDateSelector : DateSelector<Pair<Long?, Long?>> {
         )
     }
 
-    override val selectedRanges: Collection<Pair<Long?, Long?>>
+    override val selectedRanges: Collection<Pair<Long, Long>>
         get() {
-            if (selectedStartItem == null || selectedEndItem == null) {
-                return ArrayList()
-            }
-            val ranges = ArrayList<Pair<Long?, Long?>>()
-            val range = Pair(selectedStartItem, selectedEndItem)
+            if (selectedStartItem == null || selectedEndItem == null) return ArrayList()
+            val ranges = ArrayList<Pair<Long, Long>>()
+            val range = Pair(selectedStartItem!!, selectedEndItem!!)
             ranges.add(range)
             return ranges
         }
@@ -88,12 +77,8 @@ class RangeDateSelector : DateSelector<Pair<Long?, Long?>> {
     override val selectedDays: Collection<Long>
         get() {
             val selections = ArrayList<Long>()
-            if (selectedStartItem != null) {
-                selections.add(selectedStartItem!!)
-            }
-            if (selectedEndItem != null) {
-                selections.add(selectedEndItem!!)
-            }
+            if (selectedStartItem != null) selections.add(selectedStartItem!!)
+            if (selectedEndItem != null) selections.add(selectedEndItem!!)
             return selections
         }
 
@@ -134,9 +119,7 @@ class RangeDateSelector : DateSelector<Pair<Long?, Long?>> {
         return start <= end
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeValue(selectedStartItem)

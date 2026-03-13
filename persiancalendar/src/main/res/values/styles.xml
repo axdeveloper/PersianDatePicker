@@ -116,8 +116,7 @@
         <item name="itemShapeCornerRadius">14</item>
     </style>
 
-    <style name="PersianMaterialCalendar.Default.DialogTextButton">
-        <item name="android:background">@drawable/btn_ripple_background</item>
+    <style name="PersianMaterialCalendar.Default.DialogTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/text_btn_text_color_selector</item>
 
         <item name="android:minWidth">@dimen/btn_dialog_btn_min_width</item>
@@ -128,17 +127,12 @@
         <item name="android:layout_marginLeft">@dimen/btn_text_btn_padding_left</item>
     </style>
 
-    <style name="PersianMaterialCalendar.Default.NavigationStyle">
-        <item name="android:tint">?attr/colorPrimary</item>
-        <item name="android:background">@drawable/nvn_btn_ripple_background</item>
+    <style name="PersianMaterialCalendar.Default.NavigationStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
     </style>
 
-    <style name="PersianMaterialCalendar.Default.NavigationToggleStyle">
+    <style name="PersianMaterialCalendar.Default.NavigationToggleStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textSize">14sp</item>
-        <item name="android:tint">?attr/colorPrimary</item>
-        <item name="android:background">@drawable/nvn_toggle_btn_ripple_background</item>
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="drawableTint">?attr/colorPrimary</item>
     </style>
 
     <style name="PersianMaterialCalendar.Default.HeaderTitle" parent="Widget.AppCompat.TextView">

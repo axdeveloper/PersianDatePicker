@@ -18,6 +18,7 @@
 package com.xdev.arch.persiancalendar.datepicker
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.ContextThemeWrapper
@@ -26,10 +27,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.GridView
+import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -38,10 +38,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import com.google.android.material.button.MaterialButton
 import com.xdev.arch.persiancalendar.R
+import com.xdev.arch.persiancalendar.datepicker.utils.getButtonTextColorList
 import com.xdev.arch.persiancalendar.datepicker.utils.iranCalendar
+import com.xdev.arch.persiancalendar.datepicker.utils.parcelable
 import kotlin.math.abs
-
 /**
  * Fragment for a days of week [com.xdev.arch.persiancalendar.datepicker.calendar.PersianCalendar]
  * represented as a header row of days labels and
@@ -52,18 +54,14 @@ class MaterialCalendar<S> : PickerFragment<S>() {
     /** The views supported by [MaterialCalendar] */
     enum class CalendarSelector { DAY, YEAR }
 
+    @ColorInt private var accentColor = 0
     private var themeResId = 0
-
-    override var dateSelector: DateSelector<S>? = null
-
+    internal lateinit var dateSelector: DateSelector<S>
+    internal lateinit var calendarConstraints: CalendarConstraints
     private lateinit var current: Month
     private lateinit var calendarSelector: CalendarSelector
-
-    lateinit var calendarConstraints: CalendarConstraints
-    lateinit var calendarStyle: CalendarStyle
-
+    internal lateinit var calendarStyle: CalendarStyle
     private var yearSelector: RecyclerView? = null
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var yearFrame: View
     private lateinit var dayFrame: View
@@ -74,15 +72,17 @@ class MaterialCalendar<S> : PickerFragment<S>() {
         bundle.putParcelable(GRID_SELECTOR_KEY, dateSelector)
         bundle.putParcelable(CALENDAR_CONSTRAINTS_KEY, calendarConstraints)
         bundle.putParcelable(CURRENT_MONTH_KEY, current)
+        bundle.putInt(ACCENT_COLOR_KEY, accentColor)
     }
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         val activeBundle = (bundle ?: arguments) as Bundle
         themeResId = activeBundle.getInt(THEME_RES_ID_KEY)
-        dateSelector = activeBundle.getParcelable(GRID_SELECTOR_KEY)
-        calendarConstraints = activeBundle.getParcelable(CALENDAR_CONSTRAINTS_KEY)!!
-        current = activeBundle.getParcelable(CURRENT_MONTH_KEY)!!
+        dateSelector = activeBundle.parcelable(GRID_SELECTOR_KEY)!!
+        calendarConstraints = activeBundle.parcelable(CALENDAR_CONSTRAINTS_KEY)!!
+        current = activeBundle.parcelable(CURRENT_MONTH_KEY)!!
+        accentColor = activeBundle.getInt(ACCENT_COLOR_KEY)
     }
 
     override fun onCreateView(
@@ -90,14 +90,12 @@ class MaterialCalendar<S> : PickerFragment<S>() {
         viewGroup: ViewGroup?,
         bundle: Bundle?
     ): View {
-        val themedContext =
-            ContextThemeWrapper(context, themeResId)
-        calendarStyle = CalendarStyle(themedContext)
+        val themedContext = ContextThemeWrapper(context, themeResId)
+        calendarStyle = CalendarStyle(themedContext, accentColor)
         val themedInflater = layoutInflater.cloneInContext(themedContext)
         val earliestMonth = calendarConstraints.start
         val orientation: Int = LinearLayoutManager.HORIZONTAL
         val root = themedInflater.inflate(R.layout.calendar_horizontal, viewGroup, false)
-
         val daysHeader = root.findViewById<GridView>(R.id.calendar_days_of_week)
 
         ViewCompat.setAccessibilityDelegate(
@@ -142,16 +140,17 @@ class MaterialCalendar<S> : PickerFragment<S>() {
                     OnDayClickListener {
                     override fun onDayClick(day: Long) {
                         if (calendarConstraints.dateValidator.isValid(day)) {
-                            dateSelector?.select(day)
+                            dateSelector.select(day)
                             for (listener in onSelectionChangedListeners) {
-                                listener.onSelectionChanged(dateSelector?.getSelection())
+                                listener.onSelectionChanged(dateSelector.getSelection())
                             }
 
                             recyclerView.adapter?.notifyDataSetChanged()
-                            yearSelector?.let { it.adapter?.notifyDataSetChanged() }
+                            yearSelector?.adapter?.notifyDataSetChanged()
                         }
                     }
-                })
+                },
+            accentColor)
         recyclerView.adapter = monthsPagerAdapter
         val columns = themedContext.resources.getInteger(R.integer.calendar_year_selector_span)
         yearSelector = root.findViewById(R.id.calendar_year_selector_frame)
@@ -190,44 +189,39 @@ class MaterialCalendar<S> : PickerFragment<S>() {
                 val adapter = recyclerView.adapter as YearGridAdapter
                 val layoutManager = recyclerView.layoutManager as GridLayoutManager
 
-                dateSelector?.let { dateSelector ->
-                    for (range in dateSelector.selectedRanges) {
+                for (range in dateSelector.selectedRanges) {
+                    if (range.first == null || range.second == null) continue
 
-                        if (range.first == null || range.second == null) {
-                            continue
-                        }
+                    startItem.timeInMillis = range.first!!
+                    endItem.timeInMillis = range.second!!
 
-                        startItem.timeInMillis = range.first!!
-                        endItem.timeInMillis = range.second!!
+                    val firstHighlightPosition =
+                        adapter.getPositionForYear(startItem.year)
+                    val lastHighlightPosition =
+                        adapter.getPositionForYear(endItem.year)
+                    val firstView = layoutManager.findViewByPosition(firstHighlightPosition)
+                    val lastView = layoutManager.findViewByPosition(lastHighlightPosition)
+                    val firstRow = firstHighlightPosition / layoutManager.spanCount
+                    val lastRow = lastHighlightPosition / layoutManager.spanCount
+                    for (row in firstRow..lastRow) {
+                        val firstPositionInRow = row * layoutManager.spanCount
+                        val viewInRow =
+                            layoutManager.findViewByPosition(firstPositionInRow)
+                                ?: continue
+                        val top = viewInRow.top + calendarStyle.year.topInset
+                        val bottom = viewInRow.bottom - calendarStyle.year.bottomInset
 
-                        val firstHighlightPosition =
-                            adapter.getPositionForYear(startItem.year)
-                        val lastHighlightPosition =
-                            adapter.getPositionForYear(endItem.year)
-                        val firstView = layoutManager.findViewByPosition(firstHighlightPosition)
-                        val lastView = layoutManager.findViewByPosition(lastHighlightPosition)
-                        val firstRow = firstHighlightPosition / layoutManager.spanCount
-                        val lastRow = lastHighlightPosition / layoutManager.spanCount
-                        for (row in firstRow..lastRow) {
-                            val firstPositionInRow = row * layoutManager.spanCount
-                            val viewInRow =
-                                layoutManager.findViewByPosition(firstPositionInRow)
-                                    ?: continue
-                            val top = viewInRow.top + calendarStyle.year.topInset
-                            val bottom = viewInRow.bottom - calendarStyle.year.bottomInset
-
-                            val left =
-                                if (row == firstRow) firstView!!.left + firstView.width / 2 else 0
-                            val right =
-                                if (row == lastRow) lastView!!.left + lastView.width / 2 else recyclerView.width
-                            canvas.drawRect(
-                                left.toFloat(),
-                                top.toFloat(),
-                                right.toFloat(),
-                                bottom.toFloat(),
-                                calendarStyle.rangeFill
-                            )
-                        }
+                        val left =
+                            if (row == firstRow) firstView!!.right - firstView.width / 2 else recyclerView.width
+                        val right =
+                            if (row == lastRow) lastView!!.right - lastView.width / 2 else 0
+                        canvas.drawRect(
+                            left.toFloat(),
+                            top.toFloat(),
+                            right.toFloat(),
+                            bottom.toFloat(),
+                            calendarStyle.rangeFill
+                        )
                     }
                 }
             }
@@ -266,13 +260,9 @@ class MaterialCalendar<S> : PickerFragment<S>() {
     fun setSelector(selector: CalendarSelector) {
         calendarSelector = selector
         if (selector == CalendarSelector.YEAR) {
-
             yearSelector?.let {
                 it.layoutManager?.scrollToPosition(
-                    (it.adapter as YearGridAdapter).getPositionForYear(
-                        current.year
-                    )
-                )
+                    (it.adapter as YearGridAdapter).getPositionForYear(current.year))
             }
 
             yearFrame.visibility = View.VISIBLE
@@ -295,12 +285,26 @@ class MaterialCalendar<S> : PickerFragment<S>() {
     }
 
     private fun addActionsToMonthNavigation(root: View, monthsPagerAdapter: MonthsPagerAdapter) {
-        val monthDropSelect: AppCompatTextView = root.findViewById(R.id.month_navigation_fragment_toggle)
+        val monthDropSelect: MaterialButton = root.findViewById(R.id.month_navigation_fragment_toggle)
         monthDropSelect.tag = SELECTOR_TOGGLE_TAG
-        val monthPrev: AppCompatImageButton = root.findViewById(R.id.month_navigation_previous)
+        val monthPrev: MaterialButton = root.findViewById(R.id.month_navigation_previous)
         monthPrev.tag = NAVIGATION_PREV_TAG
-        val monthNext: AppCompatImageButton = root.findViewById(R.id.month_navigation_next)
+        val monthNext: MaterialButton = root.findViewById(R.id.month_navigation_next)
         monthNext.tag = NAVIGATION_NEXT_TAG
+
+        if (accentColor != 0) {
+            val stateList = ColorStateList.valueOf(accentColor)
+            val ripple = stateList.withAlpha(36)
+
+            monthPrev.iconTint = stateList
+            monthPrev.rippleColor = ripple
+            monthNext.iconTint = stateList
+            monthNext.rippleColor = ripple
+            monthDropSelect.iconTint = stateList
+            monthDropSelect.rippleColor = ripple
+            monthDropSelect.setTextColor(getButtonTextColorList(accentColor))
+        }
+
         yearFrame = root.findViewById(R.id.calendar_year_selector_frame)
         dayFrame = root.findViewById(R.id.calendar_day_selector_frame)
         setSelector(CalendarSelector.DAY)
@@ -354,6 +358,7 @@ class MaterialCalendar<S> : PickerFragment<S>() {
         private const val GRID_SELECTOR_KEY = "GRID_SELECTOR_KEY"
         private const val CALENDAR_CONSTRAINTS_KEY = "CALENDAR_CONSTRAINTS_KEY"
         private const val CURRENT_MONTH_KEY = "CURRENT_MONTH_KEY"
+        private const val ACCENT_COLOR_KEY = "ACCENT_COLOR_KEY"
         private const val SMOOTH_SCROLL_MAX = 3
         @VisibleForTesting
         val MONTHS_VIEW_GROUP_TAG: Any = "MONTHS_VIEW_GROUP_TAG"
@@ -367,27 +372,17 @@ class MaterialCalendar<S> : PickerFragment<S>() {
         fun <T> newInstance(
             dateSelector: DateSelector<T>?,
             themeResId: Int,
-            calendarConstraints: CalendarConstraints
+            calendarConstraints: CalendarConstraints,
+            @ColorInt accentColor: Int
         ): MaterialCalendar<T> {
             val materialCalendar =
                 MaterialCalendar<T>()
             val args = Bundle()
-            args.putInt(
-                THEME_RES_ID_KEY,
-                themeResId
-            )
-            args.putParcelable(
-                GRID_SELECTOR_KEY,
-                dateSelector
-            )
-            args.putParcelable(
-                CALENDAR_CONSTRAINTS_KEY,
-                calendarConstraints
-            )
-            args.putParcelable(
-                CURRENT_MONTH_KEY,
-                calendarConstraints.openAt
-            )
+            args.putInt(THEME_RES_ID_KEY, themeResId)
+            args.putParcelable(GRID_SELECTOR_KEY, dateSelector)
+            args.putParcelable(CALENDAR_CONSTRAINTS_KEY, calendarConstraints)
+            args.putParcelable(CURRENT_MONTH_KEY, calendarConstraints.openAt)
+            args.putInt(ACCENT_COLOR_KEY, accentColor)
             materialCalendar.arguments = args
             return materialCalendar
         }
@@ -398,4 +393,6 @@ class MaterialCalendar<S> : PickerFragment<S>() {
             return context.resources.getDimensionPixelSize(R.dimen.calendar_day_height)
         }
     }
+
+    override fun dateSelector(): DateSelector<S>? = dateSelector
 }

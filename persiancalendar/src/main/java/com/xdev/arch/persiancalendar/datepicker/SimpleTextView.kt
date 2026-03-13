@@ -28,6 +28,7 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.withTranslation
 import com.xdev.arch.persiancalendar.R
 import com.xdev.arch.persiancalendar.datepicker.utils.resolve
 import kotlin.math.min
@@ -39,16 +40,16 @@ class SimpleTextView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    private val mTextPaint = TextPaint()
+    private var mLayout: BoringLayout? = null
+    private lateinit var mMetrics: BoringLayout.Metrics
+
     var text = ""
         set(value) {
             field = value
             init()
             invalidate()
         }
-
-    private lateinit var mTextPaint: TextPaint
-    private lateinit var mMetrics: BoringLayout.Metrics
-    private lateinit var mLayout: BoringLayout
 
     init {
         if (!TextUtils.isEmpty(this.text))
@@ -71,7 +72,6 @@ class SimpleTextView @JvmOverloads constructor(
 
         textAttributes.recycle()
 
-        mTextPaint = TextPaint()
         mTextPaint.isAntiAlias = true
         mTextPaint.color = textColor
         mTextPaint.textSize = textSize
@@ -90,14 +90,27 @@ class SimpleTextView @JvmOverloads constructor(
         mMetrics.leading = metrics.leading
         mMetrics.top = metrics.top
 
-        mLayout = BoringLayout(
-            this.text, mTextPaint, width,
-            Layout.Alignment.ALIGN_CENTER,
-            0f,
-            0f,
-            mMetrics,
-            false
-        )
+        if (mLayout == null) {
+            mLayout = BoringLayout(
+                this.text, mTextPaint, width,
+                Layout.Alignment.ALIGN_CENTER,
+                0f,
+                0f,
+                mMetrics,
+                false
+            )
+        } else {
+            mLayout = mLayout?.replaceOrMake(
+                this.text,
+                mTextPaint,
+                width,
+                Layout.Alignment.ALIGN_CENTER,
+                0f,
+                0f,
+                mMetrics,
+                false
+            )
+        }
     }
 
     fun setText(number: Int) {
@@ -108,13 +121,21 @@ class SimpleTextView @JvmOverloads constructor(
 
     fun setTextColor(color: Int) {
         mTextPaint.color = color
+        invalidate()
     }
 
     fun setTextColor(color: ColorStateList) {
         mTextPaint.color = color.defaultColor
+        invalidate()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val layout = mLayout
+        if (layout == null) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+            return
+        }
+
         val width: Int
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthRequirement = MeasureSpec.getSize(widthMeasureSpec)
@@ -122,7 +143,7 @@ class SimpleTextView @JvmOverloads constructor(
         width = if (widthMode == MeasureSpec.EXACTLY)
             widthRequirement
         else
-            mLayout.width + paddingLeft + paddingRight
+            layout.width + paddingLeft + paddingRight
 
         var height: Int
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
@@ -131,7 +152,7 @@ class SimpleTextView @JvmOverloads constructor(
         if (heightMode == MeasureSpec.EXACTLY)
             height = heightRequirement
         else {
-            height = mLayout.height + paddingTop + paddingBottom
+            height = layout.height + paddingTop + paddingBottom
 
             if (heightMode == MeasureSpec.AT_MOST)
                 height = min(height, heightRequirement)
@@ -141,14 +162,17 @@ class SimpleTextView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+        val layout = mLayout
+        if (layout == null) {
+            super.onDraw(canvas)
+            return
+        }
 
-        val centerStart = width / 2 - mLayout.width / 2
-        val centerTop = height / 2 - mLayout.height / 2
+        val centerStart = width / 2 - layout.width / 2
+        val centerTop = height / 2 - layout.height / 2
 
-        canvas.save()
-        canvas.translate(centerStart.toFloat(), centerTop.toFloat())
-        mLayout.draw(canvas)
-        canvas.restore()
+        canvas.withTranslation(centerStart.toFloat(), centerTop.toFloat()) {
+            layout.draw(this)
+        }
     }
 }

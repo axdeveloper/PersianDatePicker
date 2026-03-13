@@ -44,8 +44,6 @@
             layout="@layout/picker_actions"
             android:layout_width="match_parent"
             android:layout_height="@dimen/calendar_action_height" />
-
-
     </LinearLayout>
 
 </LinearLayout>

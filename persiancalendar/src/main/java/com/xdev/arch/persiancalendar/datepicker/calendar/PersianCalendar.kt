@@ -40,7 +40,7 @@ class PersianCalendar() : GregorianCalendar() {
     /**
      * First day of week is [Calendar.SATURDAY] in Persian Calendar
      */
-    override fun getFirstDayOfWeek(): Int = Calendar.SATURDAY
+    override fun getFirstDayOfWeek(): Int = SATURDAY
 
     override fun setTimeInMillis(millis: Long) {
         super.setTimeInMillis(millis)
@@ -52,9 +52,21 @@ class PersianCalendar() : GregorianCalendar() {
         internalCalculate()
     }
 
+    private fun setNoCalculate(field: Int, value: Int) {
+        super.set(field, value)
+    }
+
+    fun setAll(year: Int, month: Int, day: Int) {
+        setNoCalculate(YEAR, year)
+        setNoCalculate(MONTH, month)
+        setNoCalculate(DATE, day)
+
+        internalCalculate()
+    }
+
     override fun add(field: Int, a: Int) {
         var amount = a
-        if (field == Calendar.MONTH) {
+        if (field == MONTH) {
             amount += month
             year += amount / 12
             month = amount % 12
@@ -73,13 +85,12 @@ class PersianCalendar() : GregorianCalendar() {
         return "$year/${month + 1}/$day"
     }
 
-
     /**
      * @return first day of Persian month in this calendar
      */
     fun getFirstDayOfMonth(): Int {
         setDayOfMonth(1)
-        return get(Calendar.DAY_OF_WEEK)
+        return get(DAY_OF_WEEK)
     }
 
     /**
@@ -118,9 +129,9 @@ class PersianCalendar() : GregorianCalendar() {
      * and sets the [year] [month] [day] properties
      */
     private fun internalCalculate() {
-        var y = get(YEAR)
-        val m = get(MONTH)
-        var d = get(Calendar.DAY_OF_MONTH)
+        var y = this[YEAR]
+        val m = this[MONTH]
+        var d = this[DATE]
 
         var pYear: Int
         val pMonth: Int
@@ -232,7 +243,7 @@ class PersianCalendar() : GregorianCalendar() {
         gMonth = i
         gDay = gDayNo + 1
 
-        set(gYear, gMonth, gDay)
+        setAll(gYear, gMonth, gDay)
     }
 
     /**

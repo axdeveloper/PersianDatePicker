@@ -23,11 +23,12 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.*
 import android.util.Log
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.core.util.Preconditions
 import androidx.core.view.ViewCompat
-import com.xdev.arch.persiancalendar.BuildConfig
 import com.xdev.arch.persiancalendar.R
 import com.xdev.arch.persiancalendar.datepicker.utils.getColorStateList
 
@@ -70,23 +71,13 @@ class CalendarItemStyle private constructor(
         }
 
         if (textColor == null) {
-            if (BuildConfig.DEBUG) {
-                Log.w(CalendarItemStyle::class::java.name,"Text color is null using white instead!" +
-                        "\n looks like you haven't specified a color for attribute: textColor of this item")
-            }
-
             item.setTextColor(Color.WHITE)
         } else
             item.setTextColor(textColor)
-
-        val d: Drawable
-        d = RippleDrawable(textColor?.withAlpha(30) ?: ColorStateList.valueOf(Color.WHITE).withAlpha(30),
+        val d = RippleDrawable(textColor?.withAlpha(30) ?: ColorStateList.valueOf(Color.WHITE).withAlpha(30),
             shape, mask)
 
-        ViewCompat.setBackground(
-            item,
-            InsetDrawable(d, insets.left, insets.top, insets.right, insets.bottom)
-        )
+        item.background = InsetDrawable(d, insets.left, insets.top, insets.right, insets.bottom)
     }
 
     val leftInset: Int
@@ -105,53 +96,39 @@ class CalendarItemStyle private constructor(
         /**
          * Creates a [CalendarItemStyle] using the provided [ ][R.styleable.PersianMaterialCalendarItem].
          */
-        fun create(
-            context: Context, @StyleRes materialCalendarItemStyle: Int): CalendarItemStyle {
-            Preconditions.checkArgument(
-                materialCalendarItemStyle != 0,
-                "Cannot create a CalendarItemStyle with a styleResId of 0"
-            )
+        fun create(context: Context,
+                   @StyleRes materialCalendarItemStyle: Int,
+                   @ColorInt accentColor: Int
+        ): CalendarItemStyle {
+            require(materialCalendarItemStyle != 0) { "Cannot create a CalendarItemStyle with a styleResId of 0" }
+            val customColor = accentColor != 0
+            val color = if (customColor) accentColor else 0
+            val stateList = ColorStateList.valueOf(color)
+
             val styleableArray = context.obtainStyledAttributes(
                 materialCalendarItemStyle,
-                R.styleable.PersianMaterialCalendarItem
-            )
-            val insetLeft = styleableArray.getDimensionPixelOffset(
-                R.styleable.PersianMaterialCalendarItem_android_insetLeft, 0
-            )
-            val insetTop = styleableArray.getDimensionPixelOffset(
-                R.styleable.PersianMaterialCalendarItem_android_insetTop, 0
-            )
-            val insetRight = styleableArray.getDimensionPixelOffset(
-                R.styleable.PersianMaterialCalendarItem_android_insetRight, 0
-            )
-            val insetBottom = styleableArray.getDimensionPixelOffset(
-                R.styleable.PersianMaterialCalendarItem_android_insetBottom, 0
-            )
-            val insets =
-                Rect(insetLeft, insetTop, insetRight, insetBottom)
-            val backgroundColor =
-                getColorStateList(
-                    context, styleableArray, R.styleable.PersianMaterialCalendarItem_itemFillColor
-                )
-            val textColor =
-                getColorStateList(
-                    context, styleableArray, R.styleable.PersianMaterialCalendarItem_itemTextColor
-                )
-            val strokeColor =
-                getColorStateList(
-                    context, styleableArray, R.styleable.PersianMaterialCalendarItem_itemStrokeColor
-                )
-            val strokeWidth = styleableArray.getDimensionPixelSize(
-                R.styleable.PersianMaterialCalendarItem_itemStrokeWidth,
-                0
-            )
-            val itemShape =
-                styleableArray.getInt(R.styleable.PersianMaterialCalendarItem_itemShape, 0)
+                R.styleable.PersianMaterialCalendarItem)
 
-            val cornerRadius = styleableArray.getFloat(
-                R.styleable.PersianMaterialCalendarItem_itemShapeCornerRadius,
-                0F
-            )
+            val insetLeft = styleableArray.getDimensionPixelOffset(R.styleable.PersianMaterialCalendarItem_android_insetLeft, 0)
+            val insetTop = styleableArray.getDimensionPixelOffset(R.styleable.PersianMaterialCalendarItem_android_insetTop, 0)
+            val insetRight = styleableArray.getDimensionPixelOffset(R.styleable.PersianMaterialCalendarItem_android_insetRight, 0)
+            val insetBottom = styleableArray.getDimensionPixelOffset(R.styleable.PersianMaterialCalendarItem_android_insetBottom, 0)
+
+            val insets = Rect(insetLeft, insetTop, insetRight, insetBottom)
+
+            val backgroundColor =
+                if (customColor) stateList
+                else getColorStateList(context, styleableArray, R.styleable.PersianMaterialCalendarItem_itemFillColor)
+
+            val textColor = getColorStateList(context, styleableArray, R.styleable.PersianMaterialCalendarItem_itemTextColor)
+
+            val strokeColor =
+                if (customColor) stateList
+                else getColorStateList(context, styleableArray, R.styleable.PersianMaterialCalendarItem_itemStrokeColor)
+
+            val strokeWidth = styleableArray.getDimensionPixelSize(R.styleable.PersianMaterialCalendarItem_itemStrokeWidth, 0)
+            val itemShape = styleableArray.getInt(R.styleable.PersianMaterialCalendarItem_itemShape, 0)
+            val cornerRadius = styleableArray.getFloat(R.styleable.PersianMaterialCalendarItem_itemShapeCornerRadius, 0F)
 
             styleableArray.recycle()
             return CalendarItemStyle(
@@ -166,10 +143,7 @@ class CalendarItemStyle private constructor(
     }
 
     init {
-        Preconditions.checkArgumentNonnegative(insets.left)
-        Preconditions.checkArgumentNonnegative(insets.top)
-        Preconditions.checkArgumentNonnegative(insets.right)
-        Preconditions.checkArgumentNonnegative(insets.bottom)
+        require(insets.left >= 0 && insets.top >= 0 && insets.right >= 0 && insets.bottom >= 0)
         this.insets = insets
         this.textColor = textColor
         this.backgroundColor = backgroundColor

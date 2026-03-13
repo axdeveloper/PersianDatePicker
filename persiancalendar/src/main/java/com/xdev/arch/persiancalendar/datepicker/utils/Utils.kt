@@ -20,10 +20,16 @@ package com.xdev.arch.persiancalendar.datepicker.utils
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.graphics.Color
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.ColorUtils
 
 
 fun getColorStateList(
@@ -48,4 +54,49 @@ fun resolve(context: Context, @AttrRes attributeResId: Int): TypedValue? {
     return if (context.theme.resolveAttribute(attributeResId, typedValue, true)) {
         typedValue
     } else null
+}
+
+@JvmField
+val BUTTON_STATES = arrayOf(
+    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked, android.R.attr.state_checkable),
+    intArrayOf(android.R.attr.state_checkable, -android.R.attr.state_checked, android.R.attr.state_enabled),
+    intArrayOf(android.R.attr.state_enabled),
+    intArrayOf())
+
+internal fun getButtonTextColorList(color: Int): ColorStateList {
+    val colors = intArrayOf(
+        color,
+        ColorUtils.setAlphaComponent(Color.BLACK, 153),
+        color,
+        ColorUtils.setAlphaComponent(Color.BLACK, 97))
+
+    return ColorStateList(BUTTON_STATES, colors)
+}
+
+inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getParcelable(key, T::class.java)
+    } else {
+        @Suppress("DEPRECATION")
+        getParcelable(key)
+    }
+}
+
+inline fun <reified T : Parcelable> Parcel.parcelable(): T? {
+    val loader = T::class.java.classLoader
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        readParcelable(loader, T::class.java)
+    } else {
+        @Suppress("DEPRECATION")
+        readParcelable(loader)
+    }
+}
+
+inline fun <reified T> Parcel.readListCompat(list: MutableList<T>, classLoader: ClassLoader?) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        readList(list, classLoader, T::class.java)
+    } else {
+        @Suppress("DEPRECATION")
+        readList(list, classLoader)
+    }
 }

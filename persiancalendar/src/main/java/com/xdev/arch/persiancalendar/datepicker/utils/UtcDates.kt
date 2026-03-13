@@ -37,8 +37,13 @@ private val timeZone: TimeZone
  */
 val todayCalendar: PersianCalendar
     get() {
-        val calendar = getInstance(timeZone)
-        return PersianCalendar(calendar)
+        val calendar = PersianCalendar(getInstance(timeZone))
+        calendar.timeZone = timeZone
+        calendar.set(HOUR_OF_DAY, 0)
+        calendar.set(MINUTE, 0)
+        calendar.set(MILLISECOND, 0)
+        calendar.set(SECOND, 0)
+        return getDayCopy(calendar)
     }
 
 /**
@@ -57,7 +62,9 @@ private fun getIranCalendar(rawCalendar: Calendar?): PersianCalendar {
     if (rawCalendar == null) utc.clear()
     else utc.timeInMillis = rawCalendar.timeInMillis
 
-    return PersianCalendar(utc)
+    val calendar = PersianCalendar(utc)
+    calendar.timeZone = timeZone
+    return calendar
 }
 
 /**
@@ -65,11 +72,20 @@ private fun getIranCalendar(rawCalendar: Calendar?): PersianCalendar {
  * returns a [PersianCalendar] with same date as rawCalendar
  */
 fun getDayCopy(rawCalendar: Calendar): PersianCalendar {
-    val raw = getIranCalendar(rawCalendar)
-    val irCalendar = iranCalendar
+    val rawCalendarInUtc = getInstance(timeZone)
+    rawCalendarInUtc.timeInMillis = rawCalendar.timeInMillis
 
-    irCalendar.set(raw.get(YEAR), raw.get(MONTH), raw.get(DAY_OF_MONTH))
-    return irCalendar
+    val utcCalendar = PersianCalendar(getInstance(timeZone).apply { clear() })
+    utcCalendar.clear()
+    utcCalendar.timeZone = timeZone
+
+    utcCalendar.setAll(
+        rawCalendarInUtc[YEAR],
+        rawCalendarInUtc[MONTH],
+        rawCalendarInUtc[DATE]
+    )
+
+    return utcCalendar
 }
 
 /**
@@ -78,12 +94,9 @@ fun getDayCopy(rawCalendar: Calendar): PersianCalendar {
  * @return midnight date in millis
  */
 fun canonicalYearMonthDay(rawDate: Long): Long {
-    val calendar = PersianCalendar()
+    val calendar = getInstance(timeZone)
+    calendar.clear()
     calendar.timeInMillis = rawDate
-    calendar.timeZone = TimeZone.getTimeZone(UTC)
-    calendar.set(HOUR_OF_DAY, 0)
-    calendar.set(MINUTE, 0)
-    calendar.set(SECOND, 0)
-    calendar.set(MILLISECOND, 0)
-    return calendar.timeInMillis
+    val copy = getDayCopy(calendar)
+    return copy.timeInMillis
 }
