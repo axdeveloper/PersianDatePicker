@@ -1,7 +1,6 @@
 # PersianDatePicker # PersianDatePicker [![Maven Central](https://img.shields.io/maven-central/v/io.github.axdeveloper.persiancalendar/datepicker.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.axdeveloper.persiancalendar/datepicker)
 Shamsi/Jalali date picker with material design ([Google Material Components Date Picker](https://github.com/material-components/material-components-android))
 
-Shamsi/Jalali date picker with material design ([Google Material Components Date Picker](https://github.com/material-components/material-components-android))
 
 <p>
 <img src="screenshots/date_picker_portrait.png" alt="Single Selection Demo Portrait" width="275"/>&emsp;
