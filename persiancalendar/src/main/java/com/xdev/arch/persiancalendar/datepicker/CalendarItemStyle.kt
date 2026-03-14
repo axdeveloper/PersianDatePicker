@@ -25,10 +25,11 @@ import android.graphics.drawable.*
 import android.util.Log
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
-import androidx.core.util.Preconditions
 import androidx.core.view.ViewCompat
 import com.xdev.arch.persiancalendar.BuildConfig
 import com.xdev.arch.persiancalendar.R
+import com.xdev.arch.persiancalendar.datepicker.utils.checkArgument
+import com.xdev.arch.persiancalendar.datepicker.utils.checkArgumentNonnegative
 import com.xdev.arch.persiancalendar.datepicker.utils.getColorStateList
 
 /**
@@ -107,7 +108,7 @@ class CalendarItemStyle private constructor(
          */
         fun create(
             context: Context, @StyleRes materialCalendarItemStyle: Int): CalendarItemStyle {
-            Preconditions.checkArgument(
+            checkArgument(
                 materialCalendarItemStyle != 0,
                 "Cannot create a CalendarItemStyle with a styleResId of 0"
             )
@@ -166,10 +167,10 @@ class CalendarItemStyle private constructor(
     }
 
     init {
-        Preconditions.checkArgumentNonnegative(insets.left)
-        Preconditions.checkArgumentNonnegative(insets.top)
-        Preconditions.checkArgumentNonnegative(insets.right)
-        Preconditions.checkArgumentNonnegative(insets.bottom)
+        checkArgumentNonnegative(insets.left)
+        checkArgumentNonnegative(insets.top)
+        checkArgumentNonnegative(insets.right)
+        checkArgumentNonnegative(insets.bottom)
         this.insets = insets
         this.textColor = textColor
         this.backgroundColor = backgroundColor

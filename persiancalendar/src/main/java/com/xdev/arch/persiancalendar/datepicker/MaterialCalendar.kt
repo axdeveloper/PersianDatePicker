@@ -30,6 +30,7 @@ import androidx.annotation.Px
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.os.BundleCompat
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -80,9 +81,21 @@ class MaterialCalendar<S> : PickerFragment<S>() {
         super.onCreate(bundle)
         val activeBundle = (bundle ?: arguments) as Bundle
         themeResId = activeBundle.getInt(THEME_RES_ID_KEY)
-        dateSelector = activeBundle.getParcelable(GRID_SELECTOR_KEY)
-        calendarConstraints = activeBundle.getParcelable(CALENDAR_CONSTRAINTS_KEY)!!
-        current = activeBundle.getParcelable(CURRENT_MONTH_KEY)!!
+
+        dateSelector = BundleCompat.getParcelable(
+            activeBundle,
+            GRID_SELECTOR_KEY,
+            DateSelector::class.java) as? DateSelector<S>
+
+        calendarConstraints = BundleCompat.getParcelable(
+            activeBundle,
+            CALENDAR_CONSTRAINTS_KEY,
+            CalendarConstraints::class.java)!!
+
+        current = BundleCompat.getParcelable(
+            activeBundle,
+            CURRENT_MONTH_KEY,
+            Month::class.java)!!
     }
 
     override fun onCreateView(

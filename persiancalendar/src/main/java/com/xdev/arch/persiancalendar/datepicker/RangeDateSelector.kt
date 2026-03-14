@@ -23,6 +23,7 @@ import android.os.Parcelable
 import androidx.core.util.Preconditions
 import com.xdev.arch.persiancalendar.R
 import com.xdev.arch.persiancalendar.datepicker.utils.canonicalYearMonthDay
+import com.xdev.arch.persiancalendar.datepicker.utils.checkArgument
 import com.xdev.arch.persiancalendar.datepicker.utils.getDateRangeString
 import com.xdev.arch.persiancalendar.datepicker.utils.getDateString
 import com.xdev.arch.persiancalendar.datepicker.utils.resolve
@@ -50,12 +51,7 @@ class RangeDateSelector : DateSelector<Pair<Long?, Long?>> {
 
     override fun setSelection(selection: Pair<Long?, Long?>) {
         if (selection.first != null && selection.second != null) {
-            Preconditions.checkArgument(
-                isValidRange(
-                    selection.first!!,
-                    selection.second!!
-                )
-            )
+            checkArgument(isValidRange(selection.first!!, selection.second!!))
         }
         selectedStartItem =
             if (selection.first == null) null else canonicalYearMonthDay(

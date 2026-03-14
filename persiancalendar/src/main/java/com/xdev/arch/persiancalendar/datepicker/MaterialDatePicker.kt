@@ -30,6 +30,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.os.BundleCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import com.xdev.arch.persiancalendar.R
@@ -92,10 +93,18 @@ class MaterialDatePicker<S> : DialogFragment() {
         super.onCreate(bundle)
         val activeBundle = bundle ?: arguments
         overrideThemeResId = activeBundle!!.getInt(OVERRIDE_THEME_RES_ID)
-        dateSelector =
-            activeBundle.getParcelable<DateSelector<S>>(DATE_SELECTOR_KEY) as DateSelector<S>
-        calendarConstraints =
-            activeBundle.getParcelable<CalendarConstraints>(CALENDAR_CONSTRAINTS_KEY) as CalendarConstraints
+
+        dateSelector = BundleCompat.getParcelable(
+            activeBundle,
+            DATE_SELECTOR_KEY,
+            DateSelector::class.java) as DateSelector<S>
+
+        calendarConstraints = BundleCompat.getParcelable(
+            activeBundle,
+            CALENDAR_CONSTRAINTS_KEY,
+            CalendarConstraints::class.java
+        ) as CalendarConstraints
+
         titleTextResId = activeBundle.getInt(TITLE_TEXT_RES_ID_KEY)
         titleText = activeBundle.getCharSequence(TITLE_TEXT_KEY)
     }
@@ -124,10 +133,9 @@ class MaterialDatePicker<S> : DialogFragment() {
             getPaddedPickerWidth(context), LinearLayout.LayoutParams.MATCH_PARENT)
         frame.minimumHeight = getDialogPickerHeight(requireContext())
         headerSelectionText = root.findViewById(R.id.picker_header_selection_text)
-        ViewCompat.setAccessibilityLiveRegion(
-            headerSelectionText,
-            ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE
-        )
+
+        headerSelectionText.accessibilityLiveRegion = ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE
+
         val titleTextView = root.findViewById<AppCompatTextView>(R.id.picker_title_text)
 
         if (titleText != null)

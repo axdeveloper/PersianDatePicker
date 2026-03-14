@@ -20,6 +20,9 @@ package com.xdev.arch.persiancalendar.datepicker
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.bundleOf
+import androidx.core.os.BundleCompat
+import androidx.core.os.ParcelCompat
 
 /**
  * Used to limit the display range of [MaterialCalendar] and set an openAt month.
@@ -164,7 +167,7 @@ class CalendarConstraints private constructor(
                 Month.create(start),
                 Month.create(end),
                 Month.create(openAt!!),
-                deepCopyBundle.getParcelable<Parcelable>(DEEP_COPY_VALIDATOR_KEY) as DateValidator
+                BundleCompat.getParcelable(deepCopyBundle, DEEP_COPY_VALIDATOR_KEY, DateValidator::class.java) as DateValidator
             )
         }
 
@@ -193,11 +196,11 @@ class CalendarConstraints private constructor(
             object :
                 Parcelable.Creator<CalendarConstraints> {
                 override fun createFromParcel(source: Parcel): CalendarConstraints {
-                    val start: Month = source.readParcelable(Month::class.java.classLoader)!!
-                    val end: Month = source.readParcelable(Month::class.java.classLoader)!!
-                    val openAt: Month = source.readParcelable(Month::class.java.classLoader)!!
+                    val start: Month = ParcelCompat.readParcelable(source, Month::class.java.classLoader, Month::class.java)!!
+                    val end: Month = ParcelCompat.readParcelable(source, Month::class.java.classLoader, Month::class.java)!!
+                    val openAt: Month = ParcelCompat.readParcelable(source, Month::class.java.classLoader, Month::class.java)!!
                     val validator: DateValidator =
-                        source.readParcelable(DateValidator::class.java.classLoader)!!
+                        ParcelCompat.readParcelable(source, DateValidator::class.java.classLoader, DateValidator::class.java)!!
                     return CalendarConstraints(start, end, openAt, validator)
                 }
 

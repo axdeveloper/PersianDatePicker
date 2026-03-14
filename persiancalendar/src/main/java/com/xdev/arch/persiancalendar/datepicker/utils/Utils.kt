@@ -22,6 +22,7 @@ import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.util.TypedValue
 import androidx.annotation.AttrRes
+import androidx.annotation.IntRange
 import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
 
@@ -48,4 +49,23 @@ fun resolve(context: Context, @AttrRes attributeResId: Int): TypedValue? {
     return if (context.theme.resolveAttribute(attributeResId, typedValue, true)) {
         typedValue
     } else null
+}
+
+fun checkArgument(expression: Boolean) {
+    require(expression)
+}
+
+fun checkArgument(
+    expression: Boolean,
+    messageTemplate: String,
+    vararg messageArgs: Any
+) {
+    require(expression) { String.format(messageTemplate, *messageArgs) }
+}
+
+@IntRange(from = 0)
+fun checkArgumentNonnegative(value: Int): Int {
+    require(value >= 0)
+
+    return value
 }

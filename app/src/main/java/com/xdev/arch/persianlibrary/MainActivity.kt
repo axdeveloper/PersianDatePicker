@@ -2,16 +2,25 @@ package com.xdev.arch.persianlibrary
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import com.xdev.arch.persiancalendar.datepicker.*
 import com.xdev.arch.persiancalendar.datepicker.calendar.PersianCalendar
-import kotlinx.android.synthetic.main.activity_main.*
+import com.xdev.arch.persiancalendar.datepicker.utils.getYearMonthDay
+import java.util.Calendar
+import java.util.GregorianCalendar
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val resultTextView = findViewById<TextView>(R.id.result)
+        val rangeBtn = findViewById<MaterialButton>(R.id.rangeBtn)
+        val pickerBtn = findViewById<MaterialButton>(R.id.pickerBtn)
 
         val calendar = PersianCalendar()
         calendar.setPersian(1340, Month.FARVARDIN, 1)
@@ -41,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                     val first = PersianCalendar(selection.first!!)
                     val second = PersianCalendar(selection.second!!)
 
-                    result.text = "تاریخ شروع:‌ $first تاریخ پایان:‌ $second"
+                    resultTextView.text = "تاریخ شروع:  $first تاریخ پایان:  $second"
                 }
             }
         )
@@ -58,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onPositiveButtonClick(selection: Long?) {
                     val date = PersianCalendar(selection!!)
 
-                    result.text = "تاریخ انتخاب شده:‌ $date"
+                    resultTextView.text = "تاریخ انتخاب شده:  $date"
                 }
             }
         )

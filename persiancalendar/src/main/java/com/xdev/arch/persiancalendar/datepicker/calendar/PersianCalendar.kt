@@ -40,7 +40,7 @@ class PersianCalendar() : GregorianCalendar() {
     /**
      * First day of week is [Calendar.SATURDAY] in Persian Calendar
      */
-    override fun getFirstDayOfWeek(): Int = Calendar.SATURDAY
+    override fun getFirstDayOfWeek(): Int = SATURDAY
 
     override fun setTimeInMillis(millis: Long) {
         super.setTimeInMillis(millis)
@@ -54,7 +54,7 @@ class PersianCalendar() : GregorianCalendar() {
 
     override fun add(field: Int, a: Int) {
         var amount = a
-        if (field == Calendar.MONTH) {
+        if (field == MONTH) {
             amount += month
             year += amount / 12
             month = amount % 12
@@ -79,7 +79,7 @@ class PersianCalendar() : GregorianCalendar() {
      */
     fun getFirstDayOfMonth(): Int {
         setDayOfMonth(1)
-        return get(Calendar.DAY_OF_WEEK)
+        return get(DAY_OF_WEEK)
     }
 
     /**
@@ -96,13 +96,13 @@ class PersianCalendar() : GregorianCalendar() {
     }
 
     /**
-     * Determines if this year is a Persian leap year or not
-     * @return true if this year is a Persian leap year
+     * Determines if a Persian year is leap according to
+     * the astronomical definition used by Iranian calendar authorities.
      */
     private fun isPersianLeapYear(): Boolean {
-        val a = year - 474L
-        val b: Long = mod(a.toDouble(), 2820L.toDouble()) + 474L
-        return mod((b + 38.0) * 682.0, 2816.0) < 682L
+        val matches = arrayOf(1, 5, 9, 13, 17, 22, 26, 30)
+        val modulus = year % 33
+        return matches.contains(modulus)
     }
 
     /**
@@ -120,7 +120,7 @@ class PersianCalendar() : GregorianCalendar() {
     private fun internalCalculate() {
         var y = get(YEAR)
         val m = get(MONTH)
-        var d = get(Calendar.DAY_OF_MONTH)
+        var d = get(DAY_OF_MONTH)
 
         var pYear: Int
         val pMonth: Int
@@ -142,7 +142,7 @@ class PersianCalendar() : GregorianCalendar() {
             ++i
         }
 
-        if (m > 1 && (y % 4 == 0 && y % 100 != 0 || year % 400 == 0))
+        if (m > 1 && (y % 4 == 0 && y % 100 != 0 || y % 400 == 0))
             ++gDayNo
 
         gDayNo += d
@@ -224,8 +224,8 @@ class PersianCalendar() : GregorianCalendar() {
             gDayNo %= 365
         }
         i = 0
-        while (gDayNo >= GREGORIAN_DAYS_IN_MONTH[i] + if (i == 1 && leap == 1) i else 0) {
-            gDayNo -= GREGORIAN_DAYS_IN_MONTH[i] + if (i == 1 && leap == 1) i else 0
+        while (gDayNo >= GREGORIAN_DAYS_IN_MONTH[i] + if (i == 1 && leap == 1) 1 else 0) {
+            gDayNo -= GREGORIAN_DAYS_IN_MONTH[i] + if (i == 1 && leap == 1) 1 else 0
             i++
         }
 
@@ -272,17 +272,6 @@ class PersianCalendar() : GregorianCalendar() {
             31, 31, 31, 31, 31, 31, 30, 30,
             30, 30, 30, 30
         )
-
-        /**
-         *
-         * A modulo function suitable for our purpose.
-         *
-         * @param a the dividend.
-         * @param b the divisor.
-         * @return the remainder of integer division.
-         */
-        fun mod(a: Double, b: Double): Long = (a - b * floor(a / b)).toLong()
-
 
         /**
          * @return an instance of [PersianCalendar] for today
