@@ -1,4 +1,6 @@
-# PersianDatePicker [ ![Download](https://api.bintray.com/packages/xdeveloper/PersianDatePicker/com.xdev.arch.persiancalendar.datepicker/images/download.svg) ](https://bintray.com/xdeveloper/PersianDatePicker/com.xdev.arch.persiancalendar.datepicker/_latestVersion)
+# PersianDatePicker # PersianDatePicker [![Maven Central](https://img.shields.io/maven-central/v/io.github.axdeveloper.persiancalendar/datepicker.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.axdeveloper.persiancalendar/datepicker)
+Shamsi/Jalali date picker with material design ([Google Material Components Date Picker](https://github.com/material-components/material-components-android))
+
 Shamsi/Jalali date picker with material design ([Google Material Components Date Picker](https://github.com/material-components/material-components-android))
 
 <p>
@@ -20,7 +22,7 @@ Minimum SDK: 21
 
 Add this to your gradle file
 ```groovy
-    implementation 'com.xdev.arch.persiancalendar.datepicker:datepicker:0.3.2'
+    implementation("io.github.axdeveloper.persiancalendar:datepicker:0.5.0")
 ```
 
 ## Customization
